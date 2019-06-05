@@ -14,7 +14,7 @@ var (
 	}
 )
 
-func TestEncodingJSON(t *testing.T) {
+func TestBoolStateEncodingJSON(t *testing.T) {
 	for state, expect := range boolStateDataProvider {
 		source := fixtures.BoolState{
 			State: state,
@@ -26,7 +26,7 @@ func TestEncodingJSON(t *testing.T) {
 	}
 }
 
-func TestEasyJSON(t *testing.T) {
+func TestBoolStateEasyJSON(t *testing.T) {
 	for state, expect := range boolStateDataProvider {
 		source := fixtures.EasyBoolState{
 			State: state,
@@ -38,7 +38,7 @@ func TestEasyJSON(t *testing.T) {
 	}
 }
 
-func TestPereza(t *testing.T) {
+func TestBoolStatePereza(t *testing.T) {
 	for state, expect := range boolStateDataProvider {
 		source := fixtures.PerezaBoolState{
 			State: state,
@@ -49,7 +49,7 @@ func TestPereza(t *testing.T) {
 	}
 }
 
-func BenchmarkEncodingJSON(b *testing.B) {
+func BenchmarkBoolStateEncodingJSON(b *testing.B) {
 	source := fixtures.BoolState{
 		State: true,
 	}
@@ -59,7 +59,7 @@ func BenchmarkEncodingJSON(b *testing.B) {
 	}
 }
 
-func BenchmarkEasyJSON(b *testing.B) {
+func BenchmarkBoolStateEasyJSON(b *testing.B) {
 	source := fixtures.EasyBoolState{
 		State: true,
 	}
@@ -69,7 +69,7 @@ func BenchmarkEasyJSON(b *testing.B) {
 	}
 }
 
-func BenchmarkPerezaJSON(b *testing.B) {
+func BenchmarkBoolStatePerezaJSON(b *testing.B) {
 	source := fixtures.PerezaBoolState{
 		State: true,
 	}
