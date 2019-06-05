@@ -10,6 +10,19 @@
   version = "v1.1.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:8a82e4b519fb94b83923e0a6fae6aced276c887781b94b6a00c90b3dad240ba1"
+  name = "github.com/mailru/easyjson"
+  packages = [
+    ".",
+    "buffer",
+    "jlexer",
+    "jwriter",
+  ]
+  pruneopts = "UT"
+  revision = "1ea4449da9834f4d333f1cc461c374aea217d249"
+
+[[projects]]
   digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
@@ -28,6 +41,9 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/stretchr/testify/assert"]
+  input-imports = [
+    "github.com/mailru/easyjson",
+    "github.com/stretchr/testify/assert",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

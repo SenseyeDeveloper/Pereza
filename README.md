@@ -3,10 +3,11 @@ experimental json marshaler
 
 ##### Very simple structure
 ```golang
-type BoolState struct {
+struct {
 	State bool `json:"state"`
 }
 ```
 ```text
-BenchmarkEncodingJSON   	 5000000	       311 ns/op	     177 B/op	       2 allocs/op
+BenchmarkEncodingJSON   	 5000000	       308 ns/op	     177 B/op	       2 allocs/op
+BenchmarkEasyJSON       	20000000	       107 ns/op	     128 B/op	       1 allocs/op
 ```
