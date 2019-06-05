@@ -28,9 +28,9 @@ func (v *PerezaIntState) PerezaMarshalJSON() []byte {
 
 	result := make([]byte, 0, start+value+end)
 
-	result = append(result, []byte(`{"state":`)...)
+	result = append(result, '{', '"', 's', 't', 'a', 't', 'e', '"', ':')
 	result = strconv.AppendInt(result, int64(v.State), 10)
-	result = append(result, byte('}'))
+	result = append(result, '}')
 
 	return result
 }
