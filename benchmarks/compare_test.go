@@ -38,6 +38,17 @@ func TestEasyJSON(t *testing.T) {
 	}
 }
 
+func TestPereza(t *testing.T) {
+	for state, expect := range boolStateDataProvider {
+		source := fixtures.PerezaBoolState{
+			State: state,
+		}
+
+		actual := source.PerezaMarshalJSON()
+		assert.Equal(t, []byte(expect), actual)
+	}
+}
+
 func BenchmarkEncodingJSON(b *testing.B) {
 	source := fixtures.BoolState{
 		State: true,
@@ -55,5 +66,15 @@ func BenchmarkEasyJSON(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()
+	}
+}
+
+func BenchmarkPerezaJSON(b *testing.B) {
+	source := fixtures.PerezaBoolState{
+		State: true,
+	}
+
+	for i := 0; i < b.N; i++ {
+		_ = source.PerezaMarshalJSON()
 	}
 }
