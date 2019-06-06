@@ -6,3 +6,4 @@ test: easyjson
 easyjson:
 	easyjson ./fixtures/bool_state.go
 	easyjson ./fixtures/int_state.go
+	easyjson ./fixtures/string_state.go
