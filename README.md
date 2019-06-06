@@ -32,5 +32,5 @@ struct {
 ```text
 BenchmarkStringStateEncodingJSON   	 2000000	       761 ns/op	     480 B/op	       3 allocs/op
 BenchmarkStringStateEasyJSON       	 2000000	       719 ns/op	     720 B/op	       4 allocs/op
-BenchmarkStringStatePerezaJSON     	10000000	       139 ns/op	     288 B/op	       2 allocs/op
+BenchmarkStringStatePerezaJSON     	20000000	        69.6 ns/op	     144 B/op	       1 allocs/op
 ```
