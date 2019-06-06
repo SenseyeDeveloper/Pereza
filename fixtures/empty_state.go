@@ -11,6 +11,7 @@ type EmptyState struct {
 type EasyEmptyState struct {
 }
 
+// pereza:json
 type PerezaEmptyState struct {
 }
 

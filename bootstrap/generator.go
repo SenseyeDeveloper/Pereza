@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"fmt"
 	"github.com/senseyedeveloper/pereza/parser"
 	"os"
 )
@@ -32,10 +33,12 @@ func (g *Generator) generate(filename string) error {
 		return err
 	}
 
-	err = g.parser.Parse(filename, fileInfo.IsDir())
+	result, err := g.parser.Parse(filename, fileInfo.IsDir())
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("filename %s parser result %+v\n", filename, result)
 
 	return nil
 }

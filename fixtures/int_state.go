@@ -17,6 +17,7 @@ type EasyIntState struct {
 	State int `json:"state"`
 }
 
+// pereza:json
 type PerezaIntState struct {
 	State int `json:"state"`
 }
