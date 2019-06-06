@@ -1,5 +1,9 @@
 package main
 
-func main()  {
-	println("pereza generator")
+import "github.com/senseyedeveloper/pereza/bootstrap"
+
+func main() {
+	generator := bootstrap.NewGenerator(bootstrap.Settings{})
+
+	generator.Run()
 }
