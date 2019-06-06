@@ -1,2 +1,3 @@
 vendor
 *_easyjson.go
+.root
