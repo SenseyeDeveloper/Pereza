@@ -8,7 +8,10 @@ build:
 	go build -i -o .root/bin/pereza $(PKG)/pereza
 
 generate: build
-	.root/bin/pereza
+	.root/bin/pereza ./fixtures/empty_state.go
+	.root/bin/pereza ./fixtures/bool_state.go
+	.root/bin/pereza ./fixtures/int_state.go
+	.root/bin/pereza ./fixtures/string_state.go
 
 easyjson:
 	easyjson ./fixtures/empty_state.go

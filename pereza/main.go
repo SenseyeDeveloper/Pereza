@@ -1,9 +1,23 @@
 package main
 
-import "github.com/senseyedeveloper/pereza/bootstrap"
+import (
+	"fmt"
+	"github.com/senseyedeveloper/pereza/bootstrap"
+	"os"
+)
 
 func main() {
-	generator := bootstrap.NewGenerator(bootstrap.Settings{})
+	files := os.Args[1:]
+
+	if len(files) == 0 {
+		fmt.Fprintln(os.Stderr, "files required")
+
+		os.Exit(1)
+	}
+
+	generator := bootstrap.NewGenerator(bootstrap.Settings{
+		Filenames: files,
+	})
 
 	generator.Run()
 }
