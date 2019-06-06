@@ -19,5 +19,13 @@ func main() {
 		Filenames: files,
 	})
 
-	generator.Run()
+	err := generator.Run()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+
+		os.Exit(1)
+	}
+
+	// verbose
+	fmt.Println("success generated")
 }
