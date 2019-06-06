@@ -1,9 +1,12 @@
 package bootstrap
 
 import (
+	"errors"
 	"fmt"
 	"github.com/senseyedeveloper/pereza/parser"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 type Generator struct {
@@ -38,7 +41,22 @@ func (g *Generator) generate(filename string) error {
 		return err
 	}
 
-	fmt.Printf("filename %s parser result %+v\n", filename, result)
+	const suffix = "_pereza.go"
+
+	var outName string
+	if fileInfo.IsDir() {
+		outName = filepath.Join(filename, result.PackageName+suffix)
+	} else {
+		s := strings.TrimSuffix(filename, ".go")
+
+		if s == filename {
+			return errors.New("filename must end in '.go'")
+		}
+
+		outName = s + suffix
+	}
+
+	fmt.Printf("filename %s parser result %+v to %s\n", filename, result, outName)
 
 	return nil
 }
