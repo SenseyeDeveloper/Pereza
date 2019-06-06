@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/senseyedeveloper/pereza/bootstrap"
+	"github.com/senseyedeveloper/pereza/parser"
 	"os"
 )
 
@@ -15,11 +16,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	generator := bootstrap.NewGenerator(bootstrap.Settings{
-		Filenames: files,
-	})
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 
-	err := generator.Run()
+		os.Exit(1)
+	}
+
+	gopath := os.Getenv("GOPATH")
+	if gopath == "" {
+		fmt.Fprintln(os.Stderr, "GOPATH required")
+
+		os.Exit(1)
+	}
+
+	generator := bootstrap.NewGenerator(
+		parser.NewParser(gopath, pwd),
+		bootstrap.Settings{
+			Filenames: files,
+		},
+	)
+
+	err = generator.Run()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 
