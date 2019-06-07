@@ -14,6 +14,7 @@ type EasyStringState struct {
 	State string `json:"state"`
 }
 
+// pereza:json
 type PerezaStringState struct {
 	State string `json:"state"`
 }

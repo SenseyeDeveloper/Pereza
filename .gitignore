@@ -1,2 +1,4 @@
 vendor
 *_easyjson.go
+*_perezajson.go
+.root
