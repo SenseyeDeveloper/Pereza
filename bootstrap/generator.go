@@ -7,6 +7,7 @@ import (
 	"github.com/senseyedeveloper/pereza/parser"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -69,15 +70,18 @@ func (g *Generator) generate(filename string) error {
 		return err
 	}
 
-	path, err := g.writeMain(outName, result.PackagePath, result.PackageName, result.StructNames)
+	bootstrapPath, err := g.writeMain(outName, result.PackagePath, result.PackageName, result.StructNames)
+	if err != nil {
+		return err
+	}
+	defer os.Remove(bootstrapPath)
+
+	tempOutput, err := g.runBootstrap(bootstrapPath, outName)
 	if err != nil {
 		return err
 	}
 
-	_ = path
-	//defer os.Remove(path)
-
-	return nil
+	return os.Rename(tempOutput, outName)
 }
 
 func (g *Generator) writeMain(outName, packagePath, packageName string, types []string) (path string, err error) {
@@ -91,4 +95,19 @@ func (g *Generator) writeMain(outName, packagePath, packageName string, types []
 	content := core.RunnerStub(base, packagePath, packageName, types)
 
 	return bootstrapFilename, ioutil.WriteFile(bootstrapFilename, content, 0644)
+}
+
+func (g *Generator) runBootstrap(bootstrapPath, outName string) (string, error) {
+	temp, err := os.Create(outName + ".tmp")
+	if err != nil {
+		return "", err
+	}
+	defer temp.Close()
+
+	cmd := exec.Command("go", "run", filepath.Base(bootstrapPath))
+	cmd.Stdout = temp
+	cmd.Stderr = os.Stderr
+	cmd.Dir = filepath.Dir(bootstrapPath)
+
+	return temp.Name(), cmd.Run()
 }
