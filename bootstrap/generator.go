@@ -81,12 +81,14 @@ func (g *Generator) generate(filename string) error {
 }
 
 func (g *Generator) writeMain(outName, packagePath, packageName string, types []string) (path string, err error) {
-	filename := filepath.Join(
+	base := filepath.Base(outName)
+
+	bootstrapFilename := filepath.Join(
 		filepath.Dir(outName),
-		strings.TrimSuffix(filepath.Base(outName), suffix)+"-easyjson-bootstrap.go",
+		strings.TrimSuffix(base, suffix)+"-easyjson-bootstrap.go",
 	)
 
-	content := core.GeneratorRunner(outName, packagePath, packageName, types)
+	content := core.RunnerStub(base, packagePath, packageName, types)
 
-	return filename, ioutil.WriteFile(filename, content, 0644)
+	return bootstrapFilename, ioutil.WriteFile(bootstrapFilename, content, 0644)
 }
