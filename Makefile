@@ -25,6 +25,6 @@ test: easyjson generate
 all: test
 
 fmt:
-	go fmt ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/...
+	go fmt ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/...
 
 .PHONY: test easyjson generate build clean
