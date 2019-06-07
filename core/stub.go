@@ -23,6 +23,12 @@ func Stub(packageName string, types []string) []byte {
 		content = append(content, "func (*"...)
 		content = append(content, t...)
 		content = append(content, ") UnmarshalJSON([]byte) error  { return nil }\n"...)
+		content = append(content, n)
+		content = append(content, "type PerezaJSON_exporter_"...)
+		content = append(content, t...)
+		content = append(content, ' ', '*')
+		content = append(content, t...)
+		content = append(content, n)
 	}
 
 	return content
@@ -33,13 +39,15 @@ func getStubSize(packageName string, types []string) int {
 	//func (*) UnmarshalJSON([]byte) error  { return nil }
 	//`
 
-	const headerSize = 116 // len(stubHeader)
-	const headerNextSpaceSize = 2
-	const bodySize = 111 // len(body)
+	const (
+		headerSize          = len(stubHeader)
+		headerNextSpaceSize = 2
+		bodySize            = 140 // len(body)
+	)
 
 	return headerSize +
 		len(packageName) +
 		headerNextSpaceSize +
 		bodySize*len(types) +
-		stringSliceSize(types)*2 // 2 is func: MarshalJSON & UnmarshalJSON
+		stringSliceSize(types)*4 // 4 is func: MarshalJSON & UnmarshalJSON & type alias
 }

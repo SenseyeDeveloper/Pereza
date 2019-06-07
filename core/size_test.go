@@ -6,7 +6,8 @@ import (
 )
 
 var (
-	stubTypes = []string{"a", "ab", "abc", "abcd"}
+	stubTypes     = []string{"a", "ab", "abc", "abcd"}
+	stubLongTypes = []string{"a", "ab", "abc", "abcd", "abcde"}
 )
 
 func TestStringSliceSize(t *testing.T) {

@@ -6,13 +6,19 @@ import (
 )
 
 func TestStub(t *testing.T) {
-	expectSize := getStubSize("fixtures", stubTypes)
-
-	assert.Equal(t, expectSize, len(Stub("fixtures", stubTypes)))
+	assertStubOneAllocation(t, "fixtures", stubTypes)
+	assertStubOneAllocation(t, "fixtures", stubLongTypes)
 }
 
 func BenchmarkStub(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = Stub("fixtures", stubTypes)
 	}
+}
+
+func assertStubOneAllocation(t *testing.T, packageName string, types []string) {
+	t.Helper()
+
+	expectSize := getStubSize(packageName, types)
+	assert.Equal(t, expectSize, len(Stub(packageName, types)))
 }
