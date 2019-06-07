@@ -77,20 +77,19 @@ func (g *Generator) output(outName string, result parser.Result) error {
 
 package `
 
-	body := `func () MarshalJSON() ([]byte, error) { return nil, nil }
-func (*) UnmarshalJSON([]byte) error  { return nil }
-`
+	//	body := `func () MarshalJSON() ([]byte, error) { return nil, nil }
+	//func (*) UnmarshalJSON([]byte) error  { return nil }
+	//`
 
-	typeSize := stringSliceSize(types)
-
-	headerSize := len(header)
-
+	const headerSize = 116 // len(header)
 	const headerNextSpaceSize = 2
+	const bodySize = 111 // len(body)
+
 	fullSize := headerSize +
 		len(result.PackageName) +
 		headerNextSpaceSize +
-		len(body)*len(types) +
-		typeSize*2
+		bodySize*len(types) +
+		stringSliceSize(types)*2 // 2 is func: MarshalJSON & UnmarshalJSON
 
 	content := make([]byte, 0, fullSize)
 
@@ -108,9 +107,9 @@ func (*) UnmarshalJSON([]byte) error  { return nil }
 		content = append(content, ") UnmarshalJSON([]byte) error  { return nil }\n"...)
 	}
 
-	if fullSize != len(content) {
-		fmt.Printf("expect %d got %d", fullSize, len(content))
-	}
+	//if fullSize != len(content) {
+	//	fmt.Printf("expect %d got %d", fullSize, len(content))
+	//}
 
 	return ioutil.WriteFile(outName, content, 0666)
 }
