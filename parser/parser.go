@@ -47,10 +47,8 @@ func (p *Parser) Parse(filename string, isDir bool) (Result, error) {
 	}
 
 	return Result{
-		Name:        resultVisitor.name,
 		PackagePath: packagePath,
 		PackageName: resultVisitor.packageName,
 		StructNames: resultVisitor.structNames,
-		Explicit:    resultVisitor.explicit,
 	}, err
 }
