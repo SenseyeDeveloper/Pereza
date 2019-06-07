@@ -10,7 +10,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/mailru/easyjson/gen"
+	"github.com/senseyedeveloper/pereza/gen"
 	"os"
 
 `
@@ -34,12 +34,11 @@ func RunnerStub(name, packagePath, packageName string, types []string) []byte {
 
 	content = append(content, "func main() {\n"...)
 	content = append(content, `	g := gen.NewGenerator("`...)
-	content = append(content, name...)
-	content = append(content, '"', ')', n)
-	content = append(content, `	g.SetPkg("`...)
+	content = append(content, packagePath...)
+	content = append(content, '"', ',', ' ', '"')
 	content = append(content, packageName...)
 	content = append(content, '"', ',', ' ', '"')
-	content = append(content, packagePath...)
+	content = append(content, name...)
 	content = append(content, '"', ')')
 
 	for _, t := range types {
@@ -56,7 +55,7 @@ func RunnerStub(name, packagePath, packageName string, types []string) []byte {
 func getRunnerStubSize(name, packagePath, packageName string, types []string) int {
 	const (
 		headerSize      = len(runnerHeader)
-		bodySize        = 69
+		bodySize        = 59
 		typeWrapperSize = 38
 		footerSize      = len(runnerFooter)
 	)
