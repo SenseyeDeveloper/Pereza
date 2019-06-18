@@ -49,7 +49,8 @@ func TestStringStatePereza(t *testing.T) {
 			State: state,
 		}
 
-		actual := source.PerezaMarshalJSON()
+		actual, err := source.MarshalJSON()
+		assert.NoError(t, err)
 		assert.Equal(t, []byte(expect), actual)
 	}
 }
@@ -80,6 +81,6 @@ func BenchmarkStringStatePerezaJSON(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		_ = source.PerezaMarshalJSON()
+		_, _ = source.MarshalJSON()
 	}
 }

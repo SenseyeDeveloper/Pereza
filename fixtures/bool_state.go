@@ -18,11 +18,3 @@ type EasyBoolState struct {
 type PerezaBoolState struct {
 	State bool `json:"state"`
 }
-
-func (v *PerezaBoolState) PerezaMarshalJSON() []byte {
-	if v.State {
-		return []byte(`{"state":true}`)
-	}
-
-	return []byte(`{"state":false}`)
-}

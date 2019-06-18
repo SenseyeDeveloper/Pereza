@@ -26,7 +26,8 @@ func TestEmptyStateEasyJSON(t *testing.T) {
 func TestEmptyStatePereza(t *testing.T) {
 	source := fixtures.PerezaEmptyState{}
 
-	actual := source.PerezaMarshalJSON()
+	actual, err := source.MarshalJSON()
+	assert.NoError(t, err)
 	assert.Equal(t, []byte(fixtures.ExpectEmptyState), actual)
 }
 
@@ -50,6 +51,6 @@ func BenchmarkEmptyStatePerezaJSON(b *testing.B) {
 	source := fixtures.PerezaEmptyState{}
 
 	for i := 0; i < b.N; i++ {
-		_ = source.PerezaMarshalJSON()
+		_, _ = source.MarshalJSON()
 	}
 }
