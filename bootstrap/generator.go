@@ -2,7 +2,6 @@ package bootstrap
 
 import (
 	"errors"
-	"fmt"
 	"github.com/senseyedeveloper/pereza/core"
 	"github.com/senseyedeveloper/pereza/parser"
 	"io/ioutil"
@@ -61,9 +60,9 @@ func (g *Generator) generate(filename string) error {
 		outName = s + suffix
 	}
 
-	fmt.Printf("source filename %s\n"+
-		"parser result %+v\n"+
-		"output filename %s\n", filename, result, outName)
+	//fmt.Printf("source filename %s\n"+
+	//	"parser result %+v\n"+
+	//	"output filename %s\n", filename, result, outName)
 
 	err = ioutil.WriteFile(outName, core.Stub(result.PackageName, result.StructNames), 0666)
 	if err != nil {

@@ -9,18 +9,22 @@ build:
 	go build -i -o .root/bin/pereza $(PKG)/pereza
 
 perezajson: build
-	.root/bin/pereza ./fixtures/empty_state.go
-	.root/bin/pereza ./fixtures/bool_state.go
-	.root/bin/pereza ./fixtures/int_state.go
-	.root/bin/pereza ./fixtures/string_state.go
+	.root/bin/pereza ./fixtures/empty_state.go \
+        ./fixtures/bool_state.go \
+        ./fixtures/int_state.go \
+        ./fixtures/uint_state.go \
+        ./fixtures/string_state.go
 
 easyjson:
-	easyjson ./fixtures/empty_state.go
-	easyjson ./fixtures/bool_state.go
-	easyjson ./fixtures/int_state.go
-	easyjson ./fixtures/string_state.go
+	easyjson ./fixtures/empty_state.go \
+	    ./fixtures/bool_state.go \
+	    ./fixtures/int_state.go \
+	    ./fixtures/uint_state.go \
+	    ./fixtures/string_state.go
 
-test: easyjson perezajson
+generate: easyjson perezajson
+
+test: generate
 	go test ./benchmarks/... -v -bench=. -benchmem
 
 all: test
@@ -28,4 +32,4 @@ all: test
 fmt:
 	go fmt ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 
-.PHONY: test easyjson perezajson build clean
+.PHONY: test generate easyjson perezajson build clean
