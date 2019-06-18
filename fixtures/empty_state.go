@@ -16,5 +16,5 @@ type PerezaEmptyState struct {
 }
 
 func (v *PerezaEmptyState) PerezaMarshalJSON() []byte {
-	return []byte(`{}`)
+	return []byte{'{', '}'}
 }
