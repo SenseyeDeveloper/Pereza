@@ -1,7 +1,5 @@
 package fixtures
 
-import "strconv"
-
 const (
 	ExpectIntStateN1 = `{"state":-1}`
 	ExpectIntState0  = `{"state":0}`
@@ -20,18 +18,4 @@ type EasyIntState struct {
 // pereza:json
 type PerezaIntState struct {
 	State int `json:"state"`
-}
-
-func (v *PerezaIntState) PerezaMarshalJSON() []byte {
-	const start = 9  // len([]byte(`{"state":`))
-	const end = 1    // len([]byte(`}`))
-	const value = 11 // len([]byte(`-2147483648`))
-
-	result := make([]byte, 0, start+value+end)
-
-	result = append(result, '{', '"', 's', 't', 'a', 't', 'e', '"', ':')
-	result = strconv.AppendInt(result, int64(v.State), 10)
-	result = append(result, '}')
-
-	return result
 }

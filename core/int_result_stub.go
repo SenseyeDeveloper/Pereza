@@ -3,9 +3,7 @@ package core
 import "strconv"
 
 const (
-	intImport = `
-
-import "strconv"
+	intImport = `import "strconv"
 
 `
 )
@@ -49,7 +47,7 @@ func IntResultStub(typeName, fieldName, jsonName string) []byte {
 
 	result = append(result, `	result = append(result, '{', '"'`...)
 	result = appendJSONFieldNameAsBytes(result, jsonName)
-	result = append(result, `, '"', ':', '"')`...)
+	result = append(result, `, '"', ':')`...)
 	result = append(result, n)
 
 	result = append(result, `	result = strconv.AppendInt(result, int64(v.`...)
@@ -72,7 +70,7 @@ func getIntResultStubSize(typeName, fieldName, jsonName string) int {
 			len(resultStubHeader) +
 			len(resultStubFuncSignatureStart) +
 			len(resultStubFuncSignatureEnd) +
-			324 // func other
+			319 // func other
 	)
 
 	return fixedSize +
