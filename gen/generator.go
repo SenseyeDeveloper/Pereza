@@ -73,13 +73,15 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 	case 1:
 		field := t.Field(0)
 
-		switch field.Type.Kind() {
+		kind := field.Type.Kind()
+
+		switch kind {
 		case reflect.Bool:
 			return core.BoolResultStub(t.Name(), field.Name, getTagName(field))
 		case reflect.String:
 			return core.StringResultStub(t.Name(), field.Name, getTagName(field))
 		case reflect.Int, reflect.Uint:
-			return core.IntResultStub(t.Name(), field.Name, getTagName(field))
+			return core.IntResultStubByType(t.Name(), field.Name, getTagName(field), kind)
 		}
 	}
 

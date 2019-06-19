@@ -9,6 +9,15 @@ func (v PerezaBoolState) MarshalJSON() []byte {
 
 	return []byte(`{"state":false}`), nil
 }
+
+// MarshalJSON supports json.Marshaler interface
+func (v PerezaBoolState) MarshalJSON() ([]byte, error) {
+	if v.State {
+		return []byte{'{', '"', 's', 't', 'a', 't', 'e', '"', ':', 't', 'r', 'u', 'e', '}'}, nil
+	}
+
+	return []byte{'{', '"', 's', 't', 'a', 't', 'e', '"', ':', 'f', 'a', 'l', 's', 'e', '}'}, nil
+}
 */
 
 func BoolResultStub(typeName, fieldName, jsonName string) []byte {

@@ -1,12 +1,26 @@
 package core
 
-import "strconv"
+import (
+	"reflect"
+	"strconv"
+)
 
 const (
 	intImport = `import "strconv"
 
 `
 )
+
+var signedTypeCastSize = map[bool]map[bool]int{
+	true: {
+		true:  7,
+		false: 0,
+	},
+	false: {
+		true:  9,
+		false: 1,
+	},
+}
 
 /**
 // MarshalJSON supports json.Marshaler interface
@@ -25,8 +39,12 @@ func (v *PerezaIntState) PerezaMarshalJSON() []byte {
 }
 */
 
-func IntResultStub(typeName, fieldName, jsonName string) []byte {
-	result := make([]byte, 0, getIntResultStubSize(typeName, fieldName, jsonName))
+func IntResultStubByType(typeName, fieldName, jsonName string, t reflect.Kind) []byte {
+	return IntResultStubBySettings(typeName, fieldName, jsonName, IntToStringMaxSize(t))
+}
+
+func IntResultStubBySettings(typeName, fieldName, jsonName string, comment IntSizeComment) []byte {
+	result := make([]byte, 0, getIntResultStubSizeBySettings(typeName, fieldName, jsonName, comment))
 
 	result = append(result, intImport...)
 	result = append(result, resultStubHeader...)
@@ -39,9 +57,12 @@ func IntResultStub(typeName, fieldName, jsonName string) []byte {
 	result = append(result, " // len([]byte(`{\""...)
 	result = append(result, jsonName...)
 	result = append(result, "\":`))\n"...)
-	result = append(result, "	const value = 20 // len([]byte(`-9223372036854775808`))\n"...)
-	result = append(result, `	const end = 1    // len([]byte{'}'})`...)
-	result = append(result, n, n)
+	result = append(result, "	const value = "...)
+	result = append(result, comment.SizeAsString...)
+	result = append(result, " // len(`"...)
+	result = append(result, comment.Comment...)
+	result = append(result, "`)\n"...)
+	result = append(result, "	const end = 1    // len([]byte{'}'})\n\n"...)
 
 	result = append(result, "	result := make([]byte, 0, start+value+end)\n"...)
 
@@ -50,9 +71,27 @@ func IntResultStub(typeName, fieldName, jsonName string) []byte {
 	result = append(result, `, '"', ':')`...)
 	result = append(result, n)
 
-	result = append(result, `	result = strconv.AppendInt(result, int64(v.`...)
-	result = append(result, fieldName...)
-	result = append(result, `), 10)`...)
+	if comment.Signed {
+		if comment.TypeCast {
+			result = append(result, `	result = strconv.AppendInt(result, int64(v.`...)
+			result = append(result, fieldName...)
+			result = append(result, `), 10)`...)
+		} else {
+			result = append(result, `	result = strconv.AppendInt(result, v.`...)
+			result = append(result, fieldName...)
+			result = append(result, `, 10)`...)
+		}
+	} else {
+		if comment.TypeCast {
+			result = append(result, `	result = strconv.AppendUint(result, uint64(v.`...)
+			result = append(result, fieldName...)
+			result = append(result, `), 10)`...)
+		} else {
+			result = append(result, `	result = strconv.AppendUint(result, v.`...)
+			result = append(result, fieldName...)
+			result = append(result, `, 10)`...)
+		}
+	}
 
 	result = append(result, n)
 	result = append(result, `	result = append(result, '}')`...)
@@ -64,18 +103,25 @@ func IntResultStub(typeName, fieldName, jsonName string) []byte {
 	return result
 }
 
-func getIntResultStubSize(typeName, fieldName, jsonName string) int {
+func getIntResultStubSizeByType(typeName, fieldName, jsonName string, t reflect.Kind) int {
+	return getIntResultStubSizeBySettings(typeName, fieldName, jsonName, IntToStringMaxSize(t))
+}
+
+func getIntResultStubSizeBySettings(typeName, fieldName, jsonName string, comment IntSizeComment) int {
 	const (
 		fixedSize = len(intImport) +
 			len(resultStubHeader) +
 			len(resultStubFuncSignatureStart) +
 			len(resultStubFuncSignatureEnd) +
-			328 // func other
+			291 // func other
 	)
 
 	return fixedSize +
 		intSize(getStringStartConst(jsonName)) +
 		len(typeName) +
 		len(fieldName) +
-		6*len(jsonName)
+		6*len(jsonName) +
+		len(comment.Comment) +
+		len(comment.SizeAsString) +
+		signedTypeCastSize[comment.Signed][comment.TypeCast]
 }
