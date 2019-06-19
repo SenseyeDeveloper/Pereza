@@ -7,11 +7,11 @@ clean:
 	rm -rf fixtures/*_perezajson.go
 
 pregen-build:
-	go build -i -o .root/bin/pregen $(PKG)/pereza/pregenerator
+	go build -i -o .root/bin/pregenref $(PKG)/pereza/pregenerator/reflect
 
 pregen: pregen-build
 	mkdir -p pregen
-	.root/bin/pregen > ./pregen/reflect_int_size.go
+	.root/bin/pregenref > ./pregen/reflect_int_size.go
 	go fmt ./pregen/reflect_int_size.go
 
 build: pregen
