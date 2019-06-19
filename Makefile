@@ -8,6 +8,7 @@ clean:
 
 pregen-build:
 	go build -i -o .root/bin/pregenref $(PKG)/pereza/pregenerator/reflect
+	go build -i -o .root/bin/pregentest $(PKG)/pereza/pregenerator/test
 
 pregen: pregen-build
 	mkdir -p pregen
@@ -20,12 +21,12 @@ build: pregen
 perezajson: build
 	.root/bin/pereza ./fixtures/empty_state.go \
         ./fixtures/bool_state.go \
-        ./fixtures/int_state.go \
-        ./fixtures/uint_state.go \
-        ./fixtures/string_state.go
+        ./fixtures/string_state.go \
+        ./fixtures/pregen/int_state.go \
+        ./fixtures/pregen/uint_state.go
 
 easyjson:
-	easyjson ./fixtures
+	easyjson ./fixtures ./fixtures/pregen
 
 generate: easyjson perezajson
 
