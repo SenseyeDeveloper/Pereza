@@ -2,16 +2,20 @@ PKG=github.com/senseyedeveloper/pereza
 
 clean:
 	rm -rf .root
+	rm -rf pregen
 	rm -rf fixtures/*_easyjson.go
 	rm -rf fixtures/*_perezajson.go
 
-build:
-	go build -i -o .root/bin/pereza $(PKG)/pereza/generator
+pregen-build:
 	go build -i -o .root/bin/pregen $(PKG)/pereza/pregenerator
 
-pregen: build
-	.root/bin/pregen > ./core/reflect_int_size.go
-	go fmt ./core/reflect_int_size.go
+pregen: pregen-build
+	mkdir -p pregen
+	.root/bin/pregen > ./pregen/reflect_int_size.go
+	go fmt ./pregen/reflect_int_size.go
+
+build: pregen
+	go build -i -o .root/bin/pereza $(PKG)/pereza/generator
 
 perezajson: build
 	.root/bin/pereza ./fixtures/empty_state.go \
@@ -31,6 +35,6 @@ test: generate
 all: test
 
 fmt:
-	go fmt ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
+	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 
-.PHONY: pregen test generate easyjson perezajson build clean
+.PHONY: pregen-build pregen test generate easyjson perezajson build clean

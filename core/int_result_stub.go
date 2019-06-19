@@ -1,6 +1,7 @@
 package core
 
 import (
+	"github.com/senseyedeveloper/pereza/pregen"
 	"reflect"
 	"strconv"
 )
@@ -40,10 +41,10 @@ func (v *PerezaIntState) PerezaMarshalJSON() []byte {
 */
 
 func IntResultStubByType(typeName, fieldName, jsonName string, t reflect.Kind) []byte {
-	return IntResultStubBySettings(typeName, fieldName, jsonName, IntToStringMaxSize(t))
+	return IntResultStubBySettings(typeName, fieldName, jsonName, pregen.IntToStringMaxSize(t))
 }
 
-func IntResultStubBySettings(typeName, fieldName, jsonName string, comment IntSizeComment) []byte {
+func IntResultStubBySettings(typeName, fieldName, jsonName string, comment pregen.IntSizeComment) []byte {
 	result := make([]byte, 0, getIntResultStubSizeBySettings(typeName, fieldName, jsonName, comment))
 
 	result = append(result, intImport...)
@@ -104,10 +105,10 @@ func IntResultStubBySettings(typeName, fieldName, jsonName string, comment IntSi
 }
 
 func getIntResultStubSizeByType(typeName, fieldName, jsonName string, t reflect.Kind) int {
-	return getIntResultStubSizeBySettings(typeName, fieldName, jsonName, IntToStringMaxSize(t))
+	return getIntResultStubSizeBySettings(typeName, fieldName, jsonName, pregen.IntToStringMaxSize(t))
 }
 
-func getIntResultStubSizeBySettings(typeName, fieldName, jsonName string, comment IntSizeComment) int {
+func getIntResultStubSizeBySettings(typeName, fieldName, jsonName string, comment pregen.IntSizeComment) int {
 	const (
 		fixedSize = len(intImport) +
 			len(resultStubHeader) +

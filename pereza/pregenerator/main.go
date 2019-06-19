@@ -10,7 +10,7 @@ import (
 func main() {
 
 	const (
-		output = `package core
+		output = `package pregen
 
 import "reflect"
 
@@ -30,7 +30,7 @@ func IntToStringMaxSize(t reflect.Kind) IntSizeComment {
 	return reflectIntSize[t]
 }
 `
-		pattern = "\t%s:{\n\tSize: %d,\n\tSizeAsString: %q,\n\tComment: %q,\n\tTypeCast: %t,\n\tSigned: %t,\n\t},"
+		pattern = "%s:{\nSize: %d,\nSizeAsString: %q,\nComment: %q,\nTypeCast: %t,\nSigned: %t,\n},"
 	)
 
 	type reflectSize struct {
