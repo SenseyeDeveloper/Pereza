@@ -39,7 +39,7 @@ func IntResultStub(typeName, fieldName, jsonName string) []byte {
 	result = append(result, " // len([]byte(`{\""...)
 	result = append(result, jsonName...)
 	result = append(result, "\":`))\n"...)
-	result = append(result, "	const value = 11 // len([]byte(`-2147483648`))\n"...)
+	result = append(result, "	const value = 20 // len([]byte(`-9223372036854775808`))\n"...)
 	result = append(result, `	const end = 1    // len([]byte{'}'})`...)
 	result = append(result, n, n)
 
@@ -70,7 +70,7 @@ func getIntResultStubSize(typeName, fieldName, jsonName string) int {
 			len(resultStubHeader) +
 			len(resultStubFuncSignatureStart) +
 			len(resultStubFuncSignatureEnd) +
-			319 // func other
+			328 // func other
 	)
 
 	return fixedSize +
