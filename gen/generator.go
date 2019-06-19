@@ -80,7 +80,17 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 			return core.BoolResultStub(t.Name(), field.Name, getTagName(field))
 		case reflect.String:
 			return core.StringResultStub(t.Name(), field.Name, getTagName(field))
-		case reflect.Int, reflect.Uint:
+		case reflect.Int,
+			reflect.Int8,
+			reflect.Int16,
+			reflect.Int32,
+			reflect.Int64,
+			reflect.Uint,
+			reflect.Uint8,
+			reflect.Uint16,
+			reflect.Uint32,
+			reflect.Uint64:
+
 			return core.IntResultStubByType(t.Name(), field.Name, getTagName(field), kind)
 		}
 	}
