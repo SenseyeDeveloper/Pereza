@@ -35,19 +35,25 @@ func main() {
 	_ = fixtures
 	_ = benchmarks
 
-	types := []string{
+	ints := []string{
 		"int",
 		"int8",
 		"int16",
 		"int32",
 		"int64",
+	}
 
+	uints := []string{
 		"uint",
 		"uint8",
 		"uint16",
 		"uint32",
 		"uint64",
 	}
+
+	types := make([]string, 0, len(ints)+len(uints))
+	types = append(types, ints...)
+	types = append(types, uints...)
 
 	for _, t := range types {
 		title := strings.Title(t)
