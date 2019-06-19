@@ -13,15 +13,20 @@ func main() {
 
 import "reflect"
 
-var reflectIntSize = map[reflect.Kind]int{
+type IntSizeComment struct {
+	Size    int
+	Comment string
+}
+
+var reflectIntSize = map[reflect.Kind]IntSizeComment{
 %s
 }
 
-func IntToStringMaxSize(t reflect.Kind) int {
+func IntToStringMaxSize(t reflect.Kind) IntSizeComment {
 	return reflectIntSize[t]
 }
 `
-		pattern = "\t%s:%d, // len(`%s`)"
+		pattern = "\t%s:{\n\tSize: %d,\n\tComment: \"len(`%s`)\",\n\t},"
 	)
 
 	type reflectSize struct {

@@ -21,11 +21,7 @@ perezajson: build
         ./fixtures/string_state.go
 
 easyjson:
-	easyjson ./fixtures/empty_state.go \
-	    ./fixtures/bool_state.go \
-	    ./fixtures/int_state.go \
-	    ./fixtures/uint_state.go \
-	    ./fixtures/string_state.go
+	easyjson ./fixtures
 
 generate: easyjson perezajson
 
