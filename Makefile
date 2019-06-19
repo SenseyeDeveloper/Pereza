@@ -3,6 +3,8 @@ PKG=github.com/senseyedeveloper/pereza
 clean:
 	rm -rf .root
 	rm -rf pregen
+	rm -rf fixtures/pregen
+	rm -rf benchmarks/pregen
 	rm -rf fixtures/*_easyjson.go
 	rm -rf fixtures/*_perezajson.go
 
