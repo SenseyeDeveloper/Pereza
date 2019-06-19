@@ -1,4 +1,4 @@
-# Pereza
+# Pereza [![Build Status](https://travis-ci.org/SenseyeDeveloper/Pereza.svg?branch=master)](https://travis-ci.org/SenseyeDeveloper/Pereza)
 experimental json marshaler
 
 ##### Very simple structures

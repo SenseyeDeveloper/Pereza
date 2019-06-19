@@ -11,7 +11,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8a82e4b519fb94b83923e0a6fae6aced276c887781b94b6a00c90b3dad240ba1"
+  digest = "1:da0ba0ef81aa74725eae889e476ea9f07ea9b6acb697d0ae296a6824af8c3fc8"
   name = "github.com/mailru/easyjson"
   packages = [
     ".",
@@ -20,7 +20,7 @@
     "jwriter",
   ]
   pruneopts = "UT"
-  revision = "1ea4449da9834f4d333f1cc461c374aea217d249"
+  revision = "94de47d64c6323a57053b3dd1c97f250cee92741"
 
 [[projects]]
   digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
@@ -43,6 +43,8 @@
   analyzer-version = 1
   input-imports = [
     "github.com/mailru/easyjson",
+    "github.com/mailru/easyjson/jlexer",
+    "github.com/mailru/easyjson/jwriter",
     "github.com/stretchr/testify/assert",
   ]
   solver-name = "gps-cdcl"

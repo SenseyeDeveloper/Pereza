@@ -1,5 +1,10 @@
 PKG=github.com/senseyedeveloper/pereza
 
+all: test
+
+dep:
+	dep ensure
+
 clean:
 	rm -rf .root
 	rm -rf pregen
@@ -45,12 +50,10 @@ easyjson:
 
 generate: perezajson easyjson
 
-test: generate
+test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
-
-all: test
 
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 
-.PHONY: pregen-build pregen test generate easyjson perezajson build clean
+.PHONY: dep pregen-build pregen test generate easyjson perezajson build clean
