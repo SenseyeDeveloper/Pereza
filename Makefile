@@ -6,7 +6,12 @@ clean:
 	rm -rf fixtures/*_perezajson.go
 
 build:
-	go build -i -o .root/bin/pereza $(PKG)/pereza
+	go build -i -o .root/bin/pereza $(PKG)/pereza/generator
+	go build -i -o .root/bin/pregen $(PKG)/pereza/pregenerator
+
+pregen: build
+	.root/bin/pregen > ./core/reflect_int_size.go
+	go fmt ./core/reflect_int_size.go
 
 perezajson: build
 	.root/bin/pereza ./fixtures/empty_state.go \
@@ -32,4 +37,4 @@ all: test
 fmt:
 	go fmt ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 
-.PHONY: test generate easyjson perezajson build clean
+.PHONY: pregen test generate easyjson perezajson build clean
