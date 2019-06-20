@@ -1,4 +1,4 @@
-# Pereza [![Build Status](https://travis-ci.org/gopereza/pereza.svg?branch=master)](https://travis-ci.org/gopereza/pereza)
+# Pereza [![Build Status](https://travis-ci.org/gopereza/pereza.svg?branch=master)](https://travis-ci.org/gopereza/pereza)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gopereza/pereza/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gopereza/pereza/?branch=master)
 experimental json marshaler
 
 ##### Very simple structures
