@@ -5,6 +5,12 @@ all: test
 dep:
 	dep ensure
 
+.root/src/$(PKG):
+	mkdir -p $@
+	for i in $$PWD/* ; do ln -s $$i $@/`basename $$i` ; done
+
+root: .root/src/$(PKG)
+
 clean:
 	rm -rf .root
 	rm -rf pregen
