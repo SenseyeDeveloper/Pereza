@@ -2,7 +2,7 @@ package benchmarks
 
 import (
 	"encoding/json"
-	"github.com/senseyedeveloper/pereza/fixtures"
+	"github.com/gopereza/pereza/fixtures"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

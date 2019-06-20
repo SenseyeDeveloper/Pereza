@@ -1,7 +1,7 @@
 package core
 
 import (
-	"github.com/senseyedeveloper/pereza/pregen"
+	"github.com/gopereza/pereza/pregen"
 	"reflect"
 	"strconv"
 )

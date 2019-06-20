@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/senseyedeveloper/pereza/bootstrap"
-	"github.com/senseyedeveloper/pereza/parser"
+	"github.com/gopereza/pereza/bootstrap"
+	"github.com/gopereza/pereza/parser"
 	"os"
 )
 

@@ -6,13 +6,13 @@ import (
 )
 
 func TestRunnerStub(t *testing.T) {
-	assertRunnerStubOneAllocation(t, "fixtures", "github.com/senseyedeveloper/pereza/fixtures", "fixtures", stubTypes)
-	assertRunnerStubOneAllocation(t, "fixtures", "github.com/senseyedeveloper/pereza/fixtures", "fixtures", stubLongTypes)
+	assertRunnerStubOneAllocation(t, "fixtures", "github.com/gopereza/pereza/fixtures", "fixtures", stubTypes)
+	assertRunnerStubOneAllocation(t, "fixtures", "github.com/gopereza/pereza/fixtures", "fixtures", stubLongTypes)
 }
 
 func BenchmarkRunnerStub(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = RunnerStub("fixtures", "github.com/senseyedeveloper/pereza/fixtures", "fixtures", stubTypes)
+		_ = RunnerStub("fixtures", "github.com/gopereza/pereza/fixtures", "fixtures", stubTypes)
 	}
 }
 

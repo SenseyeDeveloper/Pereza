@@ -1,7 +1,7 @@
 package gen
 
 import (
-	"github.com/senseyedeveloper/pereza/core"
+	"github.com/gopereza/pereza/core"
 	"io"
 	"reflect"
 )

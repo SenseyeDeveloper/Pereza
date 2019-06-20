@@ -1,4 +1,4 @@
-PKG=github.com/senseyedeveloper/pereza
+PKG=github.com/gopereza/pereza
 
 all: test
 

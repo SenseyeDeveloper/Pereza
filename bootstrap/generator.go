@@ -2,8 +2,8 @@ package bootstrap
 
 import (
 	"errors"
-	"github.com/senseyedeveloper/pereza/core"
-	"github.com/senseyedeveloper/pereza/parser"
+	"github.com/gopereza/pereza/core"
+	"github.com/gopereza/pereza/parser"
 	"io/ioutil"
 	"os"
 	"os/exec"

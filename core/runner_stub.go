@@ -10,7 +10,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/senseyedeveloper/pereza/gen"
+	"github.com/gopereza/pereza/gen"
 	"os"
 
 `
