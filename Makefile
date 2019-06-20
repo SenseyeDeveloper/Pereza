@@ -60,7 +60,7 @@ test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
 development: pregen
-	.root/bin/pereza ./fixtures/double_bool_state.go
+	go run ./fixtures/double_bool_state-easyjson-bootstrap.go
 	go test ./benchmarks/... -v -run=DoubleBool -bench=DoubleBool -benchmem
 
 fmt:
