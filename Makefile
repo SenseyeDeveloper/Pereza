@@ -59,7 +59,11 @@ generate: root perezajson easyjson
 test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
+development: pregen
+	.root/bin/pereza ./fixtures/double_bool_state.go
+	go test ./benchmarks/... -v -run=DoubleBool -bench=DoubleBool -benchmem
+
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 
-.PHONY: dep pregen-build pregen test generate easyjson perezajson build clean
+.PHONY: dep pregen-build pregen test generate easyjson perezajson build clean fmt development

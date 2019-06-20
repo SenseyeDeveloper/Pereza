@@ -9,8 +9,8 @@ import (
 
 var (
 	boolStateDataProvider = map[bool]string{
-		false: fixtures.ExpectBoolStateFalse,
-		true:  fixtures.ExpectBoolStateTrue,
+		false: `{"state":false}`,
+		true:  `{"state":true}`,
 	}
 )
 
