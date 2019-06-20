@@ -54,7 +54,7 @@ perezajson: build
 easyjson:
 	easyjson ./fixtures ./fixtures/pregen
 
-generate: perezajson easyjson
+generate: root perezajson easyjson
 
 test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
