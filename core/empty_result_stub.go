@@ -12,6 +12,7 @@ const (
 	emptyResultStubFuncBody  = "	return []byte{'{', '}'}, nil\n"
 )
 
+// Static allocate
 func EmptyResultStub(name string) []byte {
 	result := make([]byte, 0, getEmptyResultStubSize(name))
 

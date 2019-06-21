@@ -8,6 +8,7 @@ package `
 	n = byte('\n')
 )
 
+// Static allocate
 func Stub(packageName string, types []string) []byte {
 	content := make([]byte, 0, getStubSize(packageName, types))
 
@@ -50,4 +51,28 @@ func getStubSize(packageName string, types []string) int {
 		headerNextSpaceSize +
 		bodySize*len(types) +
 		stringSliceSize(types)*4 // 4 is func: MarshalJSON & UnmarshalJSON & type alias
+}
+
+func WrapAsResult(source string) string {
+	return "return []byte(`" + source + "`), nil"
+}
+
+func FillBooleans(length int, value bool) []bool {
+	result := make([]bool, length)
+
+	for i := 0; i < length; i++ {
+		result[i] = value
+	}
+
+	return result
+}
+
+func ReplaceBool(source []bool, n int, value bool) []bool {
+	result := make([]bool, len(source))
+
+	copy(result, source)
+
+	result[n] = value
+
+	return result
 }

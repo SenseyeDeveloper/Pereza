@@ -39,6 +39,8 @@ build: pregen
 perezajson: build
 	.root/bin/pereza ./fixtures/empty_state.go \
         ./fixtures/bool_state.go \
+        ./fixtures/double_bool_state.go \
+        ./fixtures/octo_bool_state.go \
         ./fixtures/string_state.go \
         ./fixtures/pregen/int_state.go \
         ./fixtures/pregen/int8_state.go \
@@ -59,7 +61,11 @@ generate: root perezajson easyjson
 test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
+development: pregen
+	go run ./fixtures/double_bool_state-easyjson-bootstrap.go
+	go test ./benchmarks/... -v -run=DoubleBool -bench=DoubleBool -benchmem
+
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 
-.PHONY: dep pregen-build pregen test generate easyjson perezajson build clean
+.PHONY: dep pregen-build pregen test generate easyjson perezajson build clean fmt development

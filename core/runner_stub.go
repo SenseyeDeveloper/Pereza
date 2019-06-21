@@ -24,6 +24,7 @@ import (
 `
 )
 
+// Static allocate
 func RunnerStub(name, packagePath, packageName string, types []string) []byte {
 	content := make([]byte, 0, getRunnerStubSize(name, packagePath, packageName, types))
 

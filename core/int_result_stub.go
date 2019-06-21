@@ -40,6 +40,7 @@ func (v *PerezaIntState) PerezaMarshalJSON() []byte {
 }
 */
 
+// Static allocate
 func IntResultStubByType(typeName, fieldName, jsonName string, t reflect.Kind) []byte {
 	return IntResultStubBySettings(typeName, fieldName, jsonName, pregen.IntToStringMaxSize(t))
 }
