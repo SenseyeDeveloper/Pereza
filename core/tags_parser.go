@@ -26,6 +26,7 @@ func ParseFieldTags(json string) FieldTags {
 		}
 	}
 
+	// optimize when `json:"name"`
 	splitIndex := strings.IndexByte(json, ',')
 	if splitIndex == -1 {
 		return FieldTags{
@@ -73,6 +74,13 @@ func EasyParseFieldTags(json string) FieldTags {
 	}
 
 	return result
+}
+
+func (f FieldTags) OnlyName() bool {
+	return f.Name != "" &&
+		f.AsString == false &&
+		f.Omit == false &&
+		f.OmitEmpty == false
 }
 
 /**

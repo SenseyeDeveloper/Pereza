@@ -53,6 +53,16 @@ func TestParseFieldTags(t *testing.T) {
 	}
 }
 
+func TestFieldTagsOnlyName(t *testing.T) {
+	assert.True(t, ParseFieldTags("name").OnlyName())
+	assert.True(t, ParseFieldTags("name,").OnlyName())
+	assert.True(t, ParseFieldTags("-,").OnlyName())
+
+	assert.False(t, ParseFieldTags("name,omitempty").OnlyName())
+	assert.False(t, ParseFieldTags("name,string").OnlyName())
+	assert.False(t, ParseFieldTags("-").OnlyName())
+}
+
 func BenchmarkParseFieldTags(b *testing.B) {
 	n := b.N / len(parseFieldTagsdataProvider)
 
@@ -82,5 +92,21 @@ func BenchmarkParseFieldTagsDefault(b *testing.B) {
 func BenchmarkEasyParseFieldTagsDefault(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = EasyParseFieldTags("name")
+	}
+}
+
+func BenchmarkFieldTagsOnlyNameTrue(b *testing.B) {
+	name := EasyParseFieldTags("name")
+
+	for i := 0; i < b.N; i++ {
+		_ = name.OnlyName()
+	}
+}
+
+func BenchmarkFieldTagsOnlyNameFalse(b *testing.B) {
+	name := EasyParseFieldTags("")
+
+	for i := 0; i < b.N; i++ {
+		_ = name.OnlyName()
 	}
 }
