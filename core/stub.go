@@ -53,10 +53,6 @@ func getStubSize(packageName string, types []string) int {
 		stringSliceSize(types)*4 // 4 is func: MarshalJSON & UnmarshalJSON & type alias
 }
 
-func WrapAsResult(source string) string {
-	return "return []byte(`" + source + "`), nil"
-}
-
 func FillBooleans(length int, value bool) []bool {
 	result := make([]bool, length)
 
