@@ -39,6 +39,7 @@ build: pregen
 perezajson: build
 	.root/bin/pereza ./fixtures/empty_state.go \
         ./fixtures/bool_state.go \
+        ./fixtures/double_bool_state.go \
         ./fixtures/string_state.go \
         ./fixtures/pregen/int_state.go \
         ./fixtures/pregen/int8_state.go \

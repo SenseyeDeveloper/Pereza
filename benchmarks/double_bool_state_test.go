@@ -51,8 +51,6 @@ func TestDoubleBoolStateEasyJSON(t *testing.T) {
 }
 
 func TestDoubleBoolStatePereza(t *testing.T) {
-	t.Skip("todo")
-
 	for active, approveExpectMap := range doubleBoolStateDataProvider {
 		for approve, expect := range approveExpectMap {
 			source := fixtures.PerezaDoubleBoolState{
@@ -90,8 +88,6 @@ func BenchmarkDoubleBoolStateEasyJSON(b *testing.B) {
 }
 
 func BenchmarkDoubleBoolStatePerezaJSON(b *testing.B) {
-	b.Skip("todo")
-
 	source := fixtures.PerezaDoubleBoolState{
 		Active:  true,
 		Approve: true,

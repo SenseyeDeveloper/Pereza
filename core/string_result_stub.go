@@ -18,6 +18,7 @@ func (v *PerezaStringState) PerezaMarshalJSON() []byte {
 }
 */
 
+// Static allocate
 func StringResultStub(typeName, fieldName, jsonName string) []byte {
 	result := make([]byte, 0, getStringResultStubSize(typeName, fieldName, jsonName))
 
