@@ -73,26 +73,32 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 	case 1:
 		field := t.Field(0)
 
-		kind := field.Type.Kind()
+		jsonName, standard := core.StandardStructureField(field)
 
-		switch kind {
-		case reflect.Bool:
-			return core.BoolResultStub(t.Name(), field.Name, getTagName(field))
-		case reflect.String:
-			return core.StringResultStub(t.Name(), field.Name, getTagName(field))
-		case reflect.Int,
-			reflect.Int8,
-			reflect.Int16,
-			reflect.Int32,
-			reflect.Int64,
-			reflect.Uint,
-			reflect.Uint8,
-			reflect.Uint16,
-			reflect.Uint32,
-			reflect.Uint64:
+		if standard {
+			kind := field.Type.Kind()
 
-			return core.IntResultStubByType(t.Name(), field.Name, getTagName(field), kind)
+			switch kind {
+			case reflect.Bool:
+				return core.BoolResultStub(t.Name(), field.Name, jsonName)
+			case reflect.String:
+				return core.StringResultStub(t.Name(), field.Name, jsonName)
+			case reflect.Int,
+				reflect.Int8,
+				reflect.Int16,
+				reflect.Int32,
+				reflect.Int64,
+				reflect.Uint,
+				reflect.Uint8,
+				reflect.Uint16,
+				reflect.Uint32,
+				reflect.Uint64:
+
+				return core.IntResultStubByType(t.Name(), field.Name, jsonName, kind)
+			}
 		}
+	default:
+		// if all standard
 	}
 
 	return core.EmptyResultStub(t.Name())
