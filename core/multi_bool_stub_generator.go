@@ -1,23 +1,29 @@
 package core
 
-import "fmt"
-
 type MultiBoolStubGenerator struct {
-	fieldNames  []string
-	pattern     string
-	buffer      []byte
-	returnDepth int
+	fieldNames       []string
+	fastConditionMap map[string][]byte
+	pattern          *MultiBoolJSONResultGenerator
+	buffer           []byte
+	returnDepth      int
 }
 
 func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGenerator {
-	pattern := WrapAsResult(GenerateMultiBoolJSONPattern(jsonNames))
+	pattern := NewMultiBoolJSONResultGenerator(jsonNames)
+
 	length := len(fieldNames)
 
+	fastConditionMap := make(map[string][]byte, length)
+	for _, fieldName := range fieldNames {
+		fastConditionMap[fieldName] = []byte("if v." + fieldName + " {\n")
+	}
+
 	return &MultiBoolStubGenerator{
-		fieldNames:  fieldNames,
-		pattern:     pattern,
-		buffer:      make([]byte, 0, len(pattern)*length*length*4), // dynamic allocate
-		returnDepth: length - 1,
+		fieldNames:       fieldNames,
+		fastConditionMap: fastConditionMap,
+		pattern:          pattern,
+		buffer:           make([]byte, 0, pattern.Capacity()*length*length*6), // dynamic allocate
+		returnDepth:      length - 1,
 	}
 }
 
@@ -27,30 +33,34 @@ func (g *MultiBoolStubGenerator) Generate() []byte {
 	return g.buffer
 }
 
-func (g *MultiBoolStubGenerator) generate(depth int, states []interface{}) {
+func (g *MultiBoolStubGenerator) generate(depth int, states []bool) {
 	fieldName := g.fieldNames[depth]
 
 	if depth == g.returnDepth {
-		g.append("if v." + fieldName + " {\n")
-		g.append(g.f(states))
-		g.append("}\n")
+		g.append(g.fastConditionMap[fieldName])
+		g.append(g.pattern.Generate(ReplaceBool(states, depth, true)))
+		g.conditionClose()
 
-		g.append(g.f(ReplaceBool(states, depth, false)))
+		g.append(g.pattern.Generate(ReplaceBool(states, depth, false)))
 
 		return
 	}
 
-	g.append("if v." + fieldName + " {\n")
-	g.generate(depth+1, states)
-	g.append("}\n")
+	g.append(g.fastConditionMap[fieldName])
+	g.generate(depth+1, ReplaceBool(states, depth, true))
+	g.conditionClose()
 
 	g.generate(depth+1, ReplaceBool(states, depth, false))
 }
 
-func (g *MultiBoolStubGenerator) append(code string) {
+func (g *MultiBoolStubGenerator) appendString(code string) {
 	g.buffer = append(g.buffer, code...)
 }
 
-func (g *MultiBoolStubGenerator) f(states []interface{}) string {
-	return fmt.Sprintf(g.pattern, states)
+func (g *MultiBoolStubGenerator) append(data []byte) {
+	g.buffer = append(g.buffer, data...)
+}
+
+func (g *MultiBoolStubGenerator) conditionClose() {
+	g.buffer = append(g.buffer, '}', '\n')
 }

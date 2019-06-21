@@ -10,6 +10,7 @@ type MultiBoolJSONResultGenerator struct {
 	jsonNames []string
 	buffer    []byte
 	last      int
+	capacity  int
 }
 
 func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGenerator {
@@ -19,10 +20,13 @@ func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGen
 
 	commaCount := length - 1
 
+	capacity := multiBoolJSONResultFixedSize + length*wrap + commaCount
+
 	return &MultiBoolJSONResultGenerator{
 		jsonNames: jsonNames,
-		buffer:    make([]byte, 0, multiBoolJSONResultFixedSize+length*wrap+commaCount),
+		buffer:    make([]byte, 0, capacity),
 		last:      commaCount,
+		capacity:  capacity,
 	}
 }
 
@@ -42,6 +46,10 @@ func (g *MultiBoolJSONResultGenerator) Generate(values []bool) []byte {
 	result = append(result, multiBoolJSONResultFooter...)
 
 	return result
+}
+
+func (g *MultiBoolJSONResultGenerator) Capacity() int {
+	return g.capacity
 }
 
 // helper

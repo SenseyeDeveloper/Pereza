@@ -57,8 +57,8 @@ func WrapAsResult(source string) string {
 	return "return []byte(`" + source + "`), nil"
 }
 
-func FillBooleans(length int, value bool) []interface{} {
-	result := make([]interface{}, length)
+func FillBooleans(length int, value bool) []bool {
+	result := make([]bool, length)
 
 	for i := 0; i < length; i++ {
 		result[i] = value
@@ -67,8 +67,12 @@ func FillBooleans(length int, value bool) []interface{} {
 	return result
 }
 
-func ReplaceBool(source []interface{}, n int, value bool) []interface{} {
-	result := make([]interface{}, len(source))
+func ReplaceBool(source []bool, n int, value bool) []bool {
+	if source[n] == value {
+		return source
+	}
+
+	result := make([]bool, len(source))
 
 	copy(result, source)
 
