@@ -41,6 +41,7 @@ perezajson: build
         ./fixtures/bool_state.go \
         ./fixtures/double_bool_state.go \
         ./fixtures/octo_bool_state.go \
+        ./fixtures/alphabet_bool_state.go \
         ./fixtures/string_state.go \
         ./fixtures/pregen/int_state.go \
         ./fixtures/pregen/int8_state.go \
