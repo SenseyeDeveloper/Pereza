@@ -10,7 +10,7 @@ type MultiBoolStubGenerator struct {
 }
 
 func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGenerator {
-	pattern := WrapAsResult(MultiBoolJSONPattern(jsonNames))
+	pattern := WrapAsResult(GenerateMultiBoolJSONPattern(jsonNames))
 	length := len(fieldNames)
 
 	return &MultiBoolStubGenerator{
