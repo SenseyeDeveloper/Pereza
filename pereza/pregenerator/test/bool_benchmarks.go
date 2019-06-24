@@ -12,12 +12,12 @@ const (
 
 import (
 	"encoding/json"
-	"github.com/gopereza/pereza/fixtures"
+	"github.com/gopereza/pereza/fixtures/pregen"
 	"testing"
 )
 
 func Benchmark{Size}BoolStateEncodingJSON(b *testing.B) {
-	source := fixtures.{Size}BoolState{}
+	source := pregen.{Size}BoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = json.Marshal(source)
@@ -25,7 +25,7 @@ func Benchmark{Size}BoolStateEncodingJSON(b *testing.B) {
 }
 
 func Benchmark{Size}BoolStateEasyJSON(b *testing.B) {
-	source := fixtures.Easy{Size}BoolState{}
+	source := pregen.Easy{Size}BoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()
@@ -33,7 +33,7 @@ func Benchmark{Size}BoolStateEasyJSON(b *testing.B) {
 }
 
 func Benchmark{Size}BoolStatePerezaJSON(b *testing.B) {
-	source := fixtures.Pereza{Size}BoolState{}
+	source := pregen.Pereza{Size}BoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()
@@ -43,12 +43,7 @@ func Benchmark{Size}BoolStatePerezaJSON(b *testing.B) {
 )
 
 func boolBenchmarks(path string) {
-	names := []string{
-		"octo",
-		"hexa",
-	}
-
-	for _, name := range names {
+	for _, name := range bools {
 		output := path + fmt.Sprintf(benchmarkOutputFilePattern, name)
 
 		replacer := strings.NewReplacer(

@@ -16,4 +16,9 @@ var (
 		"uint32",
 		"uint64",
 	}
+
+	bools = []string{
+		"octo",
+		"hex",
+	}
 )
