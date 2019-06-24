@@ -20,5 +20,6 @@ var (
 	bools = []string{
 		"octo",
 		"hex",
+		"alphabet",
 	}
 )
