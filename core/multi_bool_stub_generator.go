@@ -10,6 +10,7 @@ type MultiBoolStubGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
 	pattern          *MultiBoolJSONResultGenerator
+	replacer         *BoolStateReplacer
 	buffer           []byte
 	returnDepth      int
 	capacity         int
@@ -26,6 +27,7 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 		fieldNames:       fieldNames,
 		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
+		replacer:         NewBoolStateReplacer(length),
 		buffer:           make([]byte, 0, capacity), // dynamic allocate
 		returnDepth:      length - 1,
 		capacity:         capacity,
@@ -41,21 +43,25 @@ func (g *MultiBoolStubGenerator) Generate() []byte {
 func (g *MultiBoolStubGenerator) generate(depth int, states []bool) {
 	fieldName := g.fieldNames[depth]
 
+	trueState := g.replacer.Replace(states, depth, true)
+	falseState := g.replacer.Replace(states, depth, false)
+
 	if depth == g.returnDepth {
 		g.append(g.fastConditionMap[fieldName])
-		g.append(g.pattern.Generate(ReplaceBool(states, depth, true)))
+		g.append(g.pattern.Generate(trueState))
 		g.conditionClose()
 
-		g.append(g.pattern.Generate(ReplaceBool(states, depth, false)))
+		g.append(g.pattern.Generate(falseState))
+	} else {
+		g.append(g.fastConditionMap[fieldName])
+		g.generate(depth+1, trueState)
+		g.conditionClose()
 
-		return
+		g.generate(depth+1, falseState)
 	}
 
-	g.append(g.fastConditionMap[fieldName])
-	g.generate(depth+1, ReplaceBool(states, depth, true))
-	g.conditionClose()
-
-	g.generate(depth+1, ReplaceBool(states, depth, false))
+	g.replacer.PoolPut(trueState)
+	g.replacer.PoolPut(falseState)
 }
 
 func (g *MultiBoolStubGenerator) appendString(code string) {
