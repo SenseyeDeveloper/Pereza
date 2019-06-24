@@ -18,9 +18,9 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 
 	return &MultiBoolStubGenerator{
 		fieldNames:       fieldNames,
-		fastConditionMap: createFastConditionMap(fieldNames),
+		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
-		buffer:           make([]byte, 0, capacity), // dynamic allocate
+		buffer:           make([]byte, 0), // dynamic allocate
 		returnDepth:      length - 1,
 		capacity:         capacity,
 	}
@@ -64,17 +64,30 @@ func (g *MultiBoolStubGenerator) conditionClose() {
 	g.buffer = append(g.buffer, '}', '\n')
 }
 
-func createFastConditionMap(fieldNames []string) map[string][]byte {
-	fastConditionMap := make(map[string][]byte, len(fieldNames))
+func FastConditionMap(fieldNames []string) map[string][]byte {
+	length := len(fieldNames)
+
+	fastConditionMap := make(map[string][]byte, length)
+
+	const (
+		start     = "if v."
+		end       = " {\n"
+		fixedSize = len(start) + len(end)
+	)
+
+	capacity := stringSliceSize(fieldNames) + length*fixedSize
+	once := make([]byte, 0, capacity)
 
 	for _, fieldName := range fieldNames {
-		condition := make([]byte, 0, 8+len(fieldName))
+		current := fixedSize + len(fieldName)
 
-		condition = append(condition, 'i', 'f', ' ', 'v', '.')
-		condition = append(condition, fieldName...)
-		condition = append(condition, ' ', '{', n)
+		once = append(once, start...)
+		once = append(once, fieldName...)
+		once = append(once, end...)
 
-		fastConditionMap[fieldName] = condition
+		fastConditionMap[fieldName] = once[:current]
+
+		once = once[current:]
 	}
 
 	return fastConditionMap
