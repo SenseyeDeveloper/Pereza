@@ -1,6 +1,6 @@
 package fixtures
 
-type AlphabetBoolState struct {
+type HexaBoolState struct {
 	A bool `json:"a"`
 	B bool `json:"b"`
 	C bool `json:"c"`
@@ -17,20 +17,10 @@ type AlphabetBoolState struct {
 	N bool `json:"n"`
 	O bool `json:"o"`
 	P bool `json:"p"`
-	Q bool `json:"q"`
-	R bool `json:"r"`
-	S bool `json:"s"`
-	T bool `json:"t"`
-	U bool `json:"u"`
-	V bool `json:"v"`
-	W bool `json:"w"`
-	X bool `json:"x"`
-	Y bool `json:"y"`
-	Z bool `json:"z"`
 }
 
 // easyjson:json
-type EasyAlphabetBoolState struct {
+type EasyHexaBoolState struct {
 	A bool `json:"a"`
 	B bool `json:"b"`
 	C bool `json:"c"`
@@ -47,20 +37,10 @@ type EasyAlphabetBoolState struct {
 	N bool `json:"n"`
 	O bool `json:"o"`
 	P bool `json:"p"`
-	Q bool `json:"q"`
-	R bool `json:"r"`
-	S bool `json:"s"`
-	T bool `json:"t"`
-	U bool `json:"u"`
-	V bool `json:"v"`
-	W bool `json:"w"`
-	X bool `json:"x"`
-	Y bool `json:"y"`
-	Z bool `json:"z"`
 }
 
 // pereza:json
-type PerezaAlphabetBoolState struct {
+type PerezaHexaBoolState struct {
 	A bool `json:"a"`
 	B bool `json:"b"`
 	C bool `json:"c"`
@@ -77,14 +57,4 @@ type PerezaAlphabetBoolState struct {
 	N bool `json:"n"`
 	O bool `json:"o"`
 	P bool `json:"p"`
-	Q bool `json:"q"`
-	R bool `json:"r"`
-	S bool `json:"s"`
-	T bool `json:"t"`
-	U bool `json:"u"`
-	V bool `json:"v"`
-	W bool `json:"w"`
-	X bool `json:"x"`
-	Y bool `json:"y"`
-	Z bool `json:"z"`
 }

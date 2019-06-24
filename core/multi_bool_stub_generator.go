@@ -1,9 +1,5 @@
 package core
 
-import (
-	"math"
-)
-
 type MultiBoolStubGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
@@ -24,7 +20,7 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 		fieldNames:       fieldNames,
 		fastConditionMap: createFastConditionMap(fieldNames),
 		pattern:          pattern,
-		buffer:           make([]byte, 0, math.MaxUint32), // dynamic allocate
+		buffer:           make([]byte, 0, capacity), // dynamic allocate
 		returnDepth:      length - 1,
 		capacity:         capacity,
 	}
