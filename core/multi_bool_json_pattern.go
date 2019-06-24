@@ -20,7 +20,7 @@ func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGen
 
 	commaCount := length - 1
 
-	capacity := multiBoolJSONResultFixedSize + length*wrap + commaCount
+	capacity := multiBoolJSONResultFixedSize + stringSliceSize(jsonNames) + length*wrap + commaCount
 
 	return &MultiBoolJSONResultGenerator{
 		jsonNames: jsonNames,

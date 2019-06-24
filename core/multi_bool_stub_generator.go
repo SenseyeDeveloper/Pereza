@@ -1,11 +1,16 @@
 package core
 
+import (
+	"math"
+)
+
 type MultiBoolStubGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
 	pattern          *MultiBoolJSONResultGenerator
 	buffer           []byte
 	returnDepth      int
+	capacity         int
 }
 
 func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGenerator {
@@ -13,17 +18,15 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 
 	length := len(fieldNames)
 
-	fastConditionMap := make(map[string][]byte, length)
-	for _, fieldName := range fieldNames {
-		fastConditionMap[fieldName] = []byte("if v." + fieldName + " {\n")
-	}
+	capacity := pattern.Capacity() * length * length * length * length * 2
 
 	return &MultiBoolStubGenerator{
 		fieldNames:       fieldNames,
-		fastConditionMap: fastConditionMap,
+		fastConditionMap: createFastConditionMap(fieldNames),
 		pattern:          pattern,
-		buffer:           make([]byte, 0, pattern.Capacity()*length*length*6), // dynamic allocate
+		buffer:           make([]byte, 0, math.MaxUint32), // dynamic allocate
 		returnDepth:      length - 1,
+		capacity:         capacity,
 	}
 }
 
@@ -63,4 +66,20 @@ func (g *MultiBoolStubGenerator) append(data []byte) {
 
 func (g *MultiBoolStubGenerator) conditionClose() {
 	g.buffer = append(g.buffer, '}', '\n')
+}
+
+func createFastConditionMap(fieldNames []string) map[string][]byte {
+	fastConditionMap := make(map[string][]byte, len(fieldNames))
+
+	for _, fieldName := range fieldNames {
+		condition := make([]byte, 0, 8+len(fieldName))
+
+		condition = append(condition, 'i', 'f', ' ', 'v', '.')
+		condition = append(condition, fieldName...)
+		condition = append(condition, ' ', '{', n)
+
+		fastConditionMap[fieldName] = condition
+	}
+
+	return fastConditionMap
 }
