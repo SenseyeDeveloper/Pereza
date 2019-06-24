@@ -6,24 +6,24 @@ import (
 	"testing"
 )
 
-func BenchmarkOctoBoolStateEncodingJSON(b *testing.B) {
-	source := fixtures.OctoBoolState{}
+func BenchmarkHexaBoolStateEncodingJSON(b *testing.B) {
+	source := fixtures.HexaBoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = json.Marshal(source)
 	}
 }
 
-func BenchmarkOctoBoolStateEasyJSON(b *testing.B) {
-	source := fixtures.EasyOctoBoolState{}
+func BenchmarkHexaBoolStateEasyJSON(b *testing.B) {
+	source := fixtures.EasyHexaBoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()
 	}
 }
 
-func BenchmarkOctoBoolStatePerezaJSON(b *testing.B) {
-	source := fixtures.PerezaOctoBoolState{}
+func BenchmarkHexaBoolStatePerezaJSON(b *testing.B) {
+	source := fixtures.PerezaHexaBoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()

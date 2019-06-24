@@ -1,20 +1,36 @@
 package core
 
-import "fmt"
+const (
+	conditionStart     = "if v."
+	conditionEnd       = " {\n"
+	conditionFixedSize = len(conditionStart) + len(conditionEnd)
+)
 
 type MultiBoolStubGenerator struct {
-	fieldNames  []string
-	pattern     string
-	buffer      []byte
-	returnDepth int
+	fieldNames       []string
+	fastConditionMap map[string][]byte
+	pattern          *MultiBoolJSONResultGenerator
+	replacer         *BoolStateReplacer
+	buffer           []byte
+	returnDepth      int
+	capacity         int
 }
 
 func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGenerator {
+	pattern := NewMultiBoolJSONResultGenerator(jsonNames)
+
+	length := len(fieldNames)
+
+	capacity := pattern.AvgCapacity()<<uint(length) + NestedConditionWrapSize(fieldNames)
+
 	return &MultiBoolStubGenerator{
-		fieldNames:  fieldNames,
-		pattern:     WrapAsResult(MultiBoolJSONPattern(jsonNames)),
-		buffer:      nil, // dynamic allocate
-		returnDepth: len(fieldNames) - 1,
+		fieldNames:       fieldNames,
+		fastConditionMap: FastConditionMap(fieldNames),
+		pattern:          pattern,
+		replacer:         NewBoolStateReplacer(length),
+		buffer:           make([]byte, 0, capacity), // dynamic allocate
+		returnDepth:      length - 1,
+		capacity:         capacity,
 	}
 }
 
@@ -27,63 +43,72 @@ func (g *MultiBoolStubGenerator) Generate() []byte {
 func (g *MultiBoolStubGenerator) generate(depth int, states []bool) {
 	fieldName := g.fieldNames[depth]
 
+	trueState := g.replacer.Replace(states, depth, true)
+	falseState := g.replacer.Replace(states, depth, false)
+
 	if depth == g.returnDepth {
-		g.append("if v." + fieldName + " {\n")
-		g.append(g.f(ReplaceBool(states, depth, true)))
-		g.append("}\n")
+		g.append(g.fastConditionMap[fieldName])
+		g.append(g.pattern.Generate(trueState))
+		g.conditionClose()
 
-		g.append(g.f(ReplaceBool(states, depth, false)))
+		g.append(g.pattern.Generate(falseState))
+	} else {
+		g.append(g.fastConditionMap[fieldName])
+		g.generate(depth+1, trueState)
+		g.conditionClose()
 
-		return
+		g.generate(depth+1, falseState)
 	}
 
-	g.append("if v." + fieldName + " {\n")
-	g.generate(depth+1, ReplaceBool(states, depth, true))
-	g.append("}\n")
-
-	g.generate(depth+1, ReplaceBool(states, depth, false))
+	g.replacer.PoolPut(trueState)
+	g.replacer.PoolPut(falseState)
 }
 
-func (g *MultiBoolStubGenerator) append(code string) {
+func (g *MultiBoolStubGenerator) appendString(code string) {
 	g.buffer = append(g.buffer, code...)
 }
 
-func (g *MultiBoolStubGenerator) f(states []bool) string {
-	args := make([]interface{}, len(states))
-
-	for i, state := range states {
-		args[i] = state
-	}
-
-	return fmt.Sprintf(g.pattern, args...)
+func (g *MultiBoolStubGenerator) append(data []byte) {
+	g.buffer = append(g.buffer, data...)
 }
 
-// helper
-func MultiBoolJSONPattern(jsonNames []string) string {
-	length := len(jsonNames)
+func (g *MultiBoolStubGenerator) conditionClose() {
+	g.buffer = append(g.buffer, '}', n)
+}
 
-	fieldLength := stringSliceSize(jsonNames)
+func FastConditionMap(fieldNames []string) map[string][]byte {
+	length := len(fieldNames)
 
-	patternLength := fieldLength + 6*length + 1
+	fastConditionMap := make(map[string][]byte, length)
 
-	// 1 alloc
-	result := make([]byte, 0, patternLength)
+	capacity := stringSliceSize(fieldNames) + length*conditionFixedSize
+	once := make([]byte, 0, capacity)
 
-	result = append(result, '{')
+	for _, fieldName := range fieldNames {
+		current := conditionFixedSize + len(fieldName)
 
-	skipLastCommaSize := length - 1
-	for i := 0; i < skipLastCommaSize; i++ {
-		result = append(result, '"')
-		result = append(result, jsonNames[i]...)
-		result = append(result, '"', ':', '%', 't', ',')
+		once = append(once, conditionStart...)
+		once = append(once, fieldName...)
+		once = append(once, conditionEnd...)
+
+		fastConditionMap[fieldName] = once[:current]
+
+		once = once[current:]
 	}
 
-	result = append(result, '"')
-	result = append(result, jsonNames[skipLastCommaSize]...)
-	result = append(result, '"', ':', '%', 't') // skip comma
+	return fastConditionMap
+}
 
-	result = append(result, '}')
+func NestedConditionWrapSize(fields []string) int {
+	result := 0
 
-	// 2 alloc
-	return string(result)
+	for i, field := range fields {
+		result += ConditionWrapSize(field) << uint(i)
+	}
+
+	return result
+}
+
+func ConditionWrapSize(field string) int {
+	return conditionFixedSize + len(field) + 2 // 2 is '}', '\n'
 }
