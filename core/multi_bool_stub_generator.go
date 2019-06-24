@@ -13,24 +13,18 @@ type MultiBoolStubGenerator struct {
 	replacer         *BoolStateReplacer
 	buffer           []byte
 	returnDepth      int
-	capacity         int
 }
 
-func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGenerator {
-	pattern := NewMultiBoolJSONResultGenerator(jsonNames)
-
+func NewMultiBoolStubGenerator(fieldNames []string, pattern *MultiBoolJSONResultGenerator, buffer []byte) *MultiBoolStubGenerator {
 	length := len(fieldNames)
-
-	capacity := pattern.AvgCapacity()<<uint(length) + NestedConditionWrapSize(fieldNames)
 
 	return &MultiBoolStubGenerator{
 		fieldNames:       fieldNames,
 		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
 		replacer:         NewBoolStateReplacer(length),
-		buffer:           make([]byte, 0, capacity), // dynamic allocate
+		buffer:           buffer, // dynamic allocate
 		returnDepth:      length - 1,
-		capacity:         capacity,
 	}
 }
 

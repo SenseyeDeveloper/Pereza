@@ -48,17 +48,19 @@ func BoolResultStub(typeName, fieldName, jsonName string) []byte {
 
 // Dynamic allocate
 func MultiBoolResultStub(typeName string, fieldNames, jsonNames []string) []byte {
-	generator := NewMultiBoolStubGenerator(fieldNames, jsonNames)
+	pattern := NewMultiBoolJSONResultGenerator(jsonNames)
 
-	body := generator.Generate()
+	capacity := pattern.AvgCapacity()<<uint(len(fieldNames)) + NestedConditionWrapSize(fieldNames)
 
-	result := make([]byte, 0, wrapSignatureSize+len(body))
+	buffer := make([]byte, 0, wrapSignatureSize+capacity)
+	buffer = appendHeader(buffer, typeName)
 
-	result = appendHeader(result, typeName)
-	result = append(result, body...)
-	result = appendFooter(result)
+	generator := NewMultiBoolStubGenerator(fieldNames, pattern, buffer)
 
-	return result
+	buffer = generator.Generate()
+	buffer = appendFooter(buffer)
+
+	return buffer
 }
 
 func getBoolResultStubSize(typeName, fieldName, jsonName string) int {

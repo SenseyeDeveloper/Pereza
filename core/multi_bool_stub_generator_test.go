@@ -28,7 +28,13 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 	jsonNames := []string{"a"}
 
 	for i := 0; i < b.N; i++ {
-		generator := NewMultiBoolStubGenerator(fieldNames, jsonNames)
+		pattern := NewMultiBoolJSONResultGenerator(jsonNames)
+
+		capacity := pattern.AvgCapacity()<<uint(len(fieldNames)) + NestedConditionWrapSize(fieldNames)
+
+		buffer := make([]byte, 0, capacity)
+
+		generator := NewMultiBoolStubGenerator(fieldNames, pattern, buffer)
 
 		_ = generator.Generate()
 	}
@@ -36,7 +42,13 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 
 func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
+		pattern := NewMultiBoolJSONResultGenerator(hexaDataProvider)
+
+		capacity := pattern.AvgCapacity()<<uint(len(hexaDataProvider)) + NestedConditionWrapSize(hexaDataProvider)
+
+		buffer := make([]byte, 0, capacity)
+
+		generator := NewMultiBoolStubGenerator(hexaDataProvider, pattern, buffer)
 
 		_ = generator.Generate()
 	}
@@ -45,5 +57,11 @@ func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 func BenchmarkFastConditionMap(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		FastConditionMap(hexaDataProvider)
+	}
+}
+
+func BenchmarkMultiBoolResultStub(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		MultiBoolResultStub("PerezaHexBoolState", hexaDataProvider, hexaDataProvider)
 	}
 }
