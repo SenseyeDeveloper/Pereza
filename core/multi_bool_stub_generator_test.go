@@ -24,8 +24,10 @@ func TestFastConditionMap(t *testing.T) {
 }
 
 func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
+	generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
+
 	for i := 0; i < b.N; i++ {
-		NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider).Generate()
+		_ = generator.Generate()
 	}
 }
 
