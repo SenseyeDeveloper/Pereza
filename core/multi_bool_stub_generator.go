@@ -1,5 +1,11 @@
 package core
 
+const (
+	conditionStart     = "if v."
+	conditionEnd       = " {\n"
+	conditionFixedSize = len(conditionStart) + len(conditionEnd)
+)
+
 type MultiBoolStubGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
@@ -20,7 +26,7 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 		fieldNames:       fieldNames,
 		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
-		buffer:           make([]byte, 0), // dynamic allocate
+		buffer:           make([]byte, 0, capacity), // dynamic allocate
 		returnDepth:      length - 1,
 		capacity:         capacity,
 	}
@@ -69,21 +75,15 @@ func FastConditionMap(fieldNames []string) map[string][]byte {
 
 	fastConditionMap := make(map[string][]byte, length)
 
-	const (
-		start     = "if v."
-		end       = " {\n"
-		fixedSize = len(start) + len(end)
-	)
-
-	capacity := stringSliceSize(fieldNames) + length*fixedSize
+	capacity := stringSliceSize(fieldNames) + length*conditionFixedSize
 	once := make([]byte, 0, capacity)
 
 	for _, fieldName := range fieldNames {
-		current := fixedSize + len(fieldName)
+		current := conditionFixedSize + len(fieldName)
 
-		once = append(once, start...)
+		once = append(once, conditionStart...)
 		once = append(once, fieldName...)
-		once = append(once, end...)
+		once = append(once, conditionEnd...)
 
 		fastConditionMap[fieldName] = once[:current]
 

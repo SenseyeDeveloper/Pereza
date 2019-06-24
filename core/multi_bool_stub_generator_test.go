@@ -23,6 +23,14 @@ func TestFastConditionMap(t *testing.T) {
 	)
 }
 
+func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
+	generator := NewMultiBoolStubGenerator([]string{"A"}, []string{"a"})
+
+	for i := 0; i < b.N; i++ {
+		_ = generator.Generate()
+	}
+}
+
 func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 	generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
 
