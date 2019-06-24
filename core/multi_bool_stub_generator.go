@@ -21,7 +21,7 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 
 	length := len(fieldNames)
 
-	capacity := pattern.Capacity() * length * length * length * length * 2
+	capacity := pattern.AvgCapacity()<<uint(length) + NestedConditionWrapSize(fieldNames)
 
 	return &MultiBoolStubGenerator{
 		fieldNames:       fieldNames,
@@ -73,7 +73,7 @@ func (g *MultiBoolStubGenerator) append(data []byte) {
 }
 
 func (g *MultiBoolStubGenerator) conditionClose() {
-	g.buffer = append(g.buffer, '}', '\n')
+	g.buffer = append(g.buffer, '}', n)
 }
 
 func FastConditionMap(fieldNames []string) map[string][]byte {
@@ -97,4 +97,18 @@ func FastConditionMap(fieldNames []string) map[string][]byte {
 	}
 
 	return fastConditionMap
+}
+
+func NestedConditionWrapSize(fields []string) int {
+	result := 0
+
+	for i, field := range fields {
+		result += ConditionWrapSize(field) << uint(i)
+	}
+
+	return result
+}
+
+func ConditionWrapSize(field string) int {
+	return conditionFixedSize + len(field) + 2 // 2 is '}', '\n'
 }

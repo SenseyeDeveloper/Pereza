@@ -24,17 +24,20 @@ func TestFastConditionMap(t *testing.T) {
 }
 
 func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
-	generator := NewMultiBoolStubGenerator([]string{"A"}, []string{"a"})
+	fieldNames := []string{"A"}
+	jsonNames := []string{"a"}
 
 	for i := 0; i < b.N; i++ {
+		generator := NewMultiBoolStubGenerator(fieldNames, jsonNames)
+
 		_ = generator.Generate()
 	}
 }
 
 func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
-	generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
-
 	for i := 0; i < b.N; i++ {
+		generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
+
 		_ = generator.Generate()
 	}
 }
