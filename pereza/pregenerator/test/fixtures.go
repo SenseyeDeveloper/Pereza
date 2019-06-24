@@ -18,7 +18,7 @@ const (
 	pereza = "Pereza"
 )
 
-func fixtures(path string) {
+func intFixtures(path string) {
 	types := make([]string, 0, len(ints)+len(uints))
 	types = append(types, ints...)
 	types = append(types, uints...)

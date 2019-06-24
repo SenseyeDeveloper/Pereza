@@ -11,4 +11,5 @@ type minmax struct {
 func benchmarks(path string) {
 	intBenchmarks(path)
 	uintBenchmarks(path)
+	boolBenchmarks(path)
 }
