@@ -96,14 +96,28 @@ func FastConditionMap(fieldNames []string) map[string][]byte {
 	for _, fieldName := range fieldNames {
 		current := conditionFixedSize + len(fieldName)
 
-		once = append(once, conditionStart...)
-		once = append(once, fieldName...)
-		once = append(once, conditionEnd...)
+		once = AppendCondition(once, fieldName)
 
-		fastConditionMap[fieldName] = once[:current]
+		fastConditionMap[fieldName] = once
 
 		once = once[current:]
 	}
 
 	return fastConditionMap
+}
+
+func Condition(fieldName string) []byte {
+	size := conditionFixedSize + len(fieldName)
+
+	buffer := make([]byte, 0, size)
+
+	return AppendCondition(buffer, fieldName)
+}
+
+func AppendCondition(dst []byte, fieldName string) []byte {
+	result := append(dst, conditionStart...)
+	result = append(result, fieldName...)
+	result = append(result, conditionEnd...)
+
+	return result
 }

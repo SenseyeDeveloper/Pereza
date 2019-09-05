@@ -7,6 +7,10 @@ const (
 	wrapFalse = 8 // len(`"":false`)
 )
 
+const (
+	MaxBoolSize = 5
+)
+
 func MultiSize(jsonNames []string) int {
 	const brackets = 2
 

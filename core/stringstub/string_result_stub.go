@@ -69,3 +69,7 @@ func getStringResultStubSize(typeName, fieldName, jsonName string) int {
 		2*len(fieldName) +
 		6*len(jsonName)
 }
+
+func AppendFirstField(dst []byte)  {
+
+}

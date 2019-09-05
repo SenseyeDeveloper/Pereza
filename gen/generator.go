@@ -4,6 +4,7 @@ import (
 	"github.com/gopereza/pereza/core"
 	"github.com/gopereza/pereza/core/boolstub"
 	"github.com/gopereza/pereza/core/common"
+	"github.com/gopereza/pereza/core/complexstub"
 	"github.com/gopereza/pereza/core/intstub"
 	"github.com/gopereza/pereza/core/stringstub"
 	"io"
@@ -112,6 +113,8 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 
 				return boolstub.CombinatorBoolResultStub(t.Name(), fieldsNames, jsonNames)
 			}
+
+			return complexstub.StandardStub(t, fieldsNames, jsonNames)
 		}
 	}
 
