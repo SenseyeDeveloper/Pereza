@@ -34,3 +34,30 @@ BenchmarkStringStateEncodingJSON   	 2000000	       761 ns/op	     480 B/op	    
 BenchmarkStringStateEasyJSON       	 2000000	       719 ns/op	     720 B/op	       4 allocs/op
 BenchmarkStringStatePerezaJSON     	20000000	        69.6 ns/op	     144 B/op	       1 allocs/op
 ```
+
+##### Bool structure with 16 properties
+```golang
+struct {
+	A bool `json:"a"`
+	B bool `json:"b"`
+	C bool `json:"c"`
+	D bool `json:"d"`
+	E bool `json:"e"`
+	F bool `json:"f"`
+	G bool `json:"g"`
+	H bool `json:"h"`
+	I bool `json:"i"`
+	J bool `json:"j"`
+	K bool `json:"k"`
+	L bool `json:"l"`
+	M bool `json:"m"`
+	N bool `json:"n"`
+	O bool `json:"o"`
+	P bool `json:"p"`
+}
+```
+```text
+BenchmarkHexaBoolStateEncodingJSON     	 1000000	      1549 ns/op	     624 B/op	       4 allocs/op
+BenchmarkHexaBoolStateEasyJSON         	 2000000	       691 ns/op	     752 B/op	       4 allocs/op
+BenchmarkHexaBoolStatePerezaJSON       	 3000000	       397 ns/op	     160 B/op	       1 allocs/op
+```
