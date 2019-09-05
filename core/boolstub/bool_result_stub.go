@@ -47,7 +47,7 @@ func BoolResultStub(typeName, fieldName, jsonName string) []byte {
 
 // Dynamic allocate
 func CombinatorBoolResultStub(typeName string, fieldNames, jsonNames []string) []byte {
-	generator := NewCombinatorBoolStubGenerator(fieldNames, jsonNames)
+	generator := NewCombinatorGenerator(fieldNames, jsonNames)
 
 	body := generator.Generate()
 

@@ -8,7 +8,7 @@ const (
 	conditionFixedSize = len(conditionStart) + len(conditionEnd)
 )
 
-type CombinatorBoolStubGenerator struct {
+type CombinatorGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
 	pattern          *DumpGenerator
@@ -18,14 +18,14 @@ type CombinatorBoolStubGenerator struct {
 	capacity         int
 }
 
-func NewCombinatorBoolStubGenerator(fieldNames, jsonNames []string) *CombinatorBoolStubGenerator {
+func NewCombinatorGenerator(fieldNames, jsonNames []string) *CombinatorGenerator {
 	pattern := NewDumpGenerator(jsonNames)
 
 	length := len(fieldNames)
 
 	capacity := pattern.AvgCapacity()<<uint(length) + NestedConditionWrapSize(fieldNames)
 
-	return &CombinatorBoolStubGenerator{
+	return &CombinatorGenerator{
 		fieldNames:       fieldNames,
 		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
@@ -36,13 +36,13 @@ func NewCombinatorBoolStubGenerator(fieldNames, jsonNames []string) *CombinatorB
 	}
 }
 
-func (g *CombinatorBoolStubGenerator) Generate() []byte {
+func (g *CombinatorGenerator) Generate() []byte {
 	g.generate(0, FillBooleans(len(g.fieldNames), true))
 
 	return g.buffer
 }
 
-func (g *CombinatorBoolStubGenerator) generate(depth int, states []bool) {
+func (g *CombinatorGenerator) generate(depth int, states []bool) {
 	fieldName := g.fieldNames[depth]
 
 	trueState := g.replacer.Replace(states, depth, true)
@@ -66,11 +66,11 @@ func (g *CombinatorBoolStubGenerator) generate(depth int, states []bool) {
 	g.replacer.PoolPut(falseState)
 }
 
-func (g *CombinatorBoolStubGenerator) append(data []byte) {
+func (g *CombinatorGenerator) append(data []byte) {
 	g.buffer = append(g.buffer, data...)
 }
 
-func (g *CombinatorBoolStubGenerator) conditionClose() {
+func (g *CombinatorGenerator) conditionClose() {
 	g.buffer = append(g.buffer, '}', '\n')
 }
 

@@ -28,7 +28,7 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 	jsonNames := []string{"a"}
 
 	for i := 0; i < b.N; i++ {
-		generator := NewCombinatorBoolStubGenerator(fieldNames, jsonNames)
+		generator := NewCombinatorGenerator(fieldNames, jsonNames)
 
 		_ = generator.Generate()
 	}
@@ -36,7 +36,7 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 
 func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		generator := NewCombinatorBoolStubGenerator(hexaFieldNames, hexaFieldNames)
+		generator := NewCombinatorGenerator(hexaFieldNames, hexaFieldNames)
 
 		_ = generator.Generate()
 	}
