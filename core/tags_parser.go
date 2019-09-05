@@ -57,6 +57,7 @@ func ParseFieldTags(json string) FieldTags {
 	return result
 }
 
+// copy of https://github.com/mailru/easyjson/blob/da37f6c1e4819c2ed4be6542856f9c0f0560348d/gen/encoder.go#L64
 func EasyParseFieldTags(json string) FieldTags {
 	result := FieldTags{}
 
