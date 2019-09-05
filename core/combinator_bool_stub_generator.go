@@ -6,7 +6,7 @@ const (
 	conditionFixedSize = len(conditionStart) + len(conditionEnd)
 )
 
-type MultiBoolStubGenerator struct {
+type CombinatorBoolStubGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
 	pattern          *MultiBoolJSONResultGenerator
@@ -16,14 +16,14 @@ type MultiBoolStubGenerator struct {
 	capacity         int
 }
 
-func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGenerator {
+func NewCombinatorBoolStubGenerator(fieldNames, jsonNames []string) *CombinatorBoolStubGenerator {
 	pattern := NewMultiBoolJSONResultGenerator(jsonNames)
 
 	length := len(fieldNames)
 
 	capacity := pattern.AvgCapacity()<<uint(length) + NestedConditionWrapSize(fieldNames)
 
-	return &MultiBoolStubGenerator{
+	return &CombinatorBoolStubGenerator{
 		fieldNames:       fieldNames,
 		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
@@ -34,13 +34,13 @@ func NewMultiBoolStubGenerator(fieldNames, jsonNames []string) *MultiBoolStubGen
 	}
 }
 
-func (g *MultiBoolStubGenerator) Generate() []byte {
+func (g *CombinatorBoolStubGenerator) Generate() []byte {
 	g.generate(0, FillBooleans(len(g.fieldNames), true))
 
 	return g.buffer
 }
 
-func (g *MultiBoolStubGenerator) generate(depth int, states []bool) {
+func (g *CombinatorBoolStubGenerator) generate(depth int, states []bool) {
 	fieldName := g.fieldNames[depth]
 
 	trueState := g.replacer.Replace(states, depth, true)
@@ -64,15 +64,11 @@ func (g *MultiBoolStubGenerator) generate(depth int, states []bool) {
 	g.replacer.PoolPut(falseState)
 }
 
-func (g *MultiBoolStubGenerator) appendString(code string) {
-	g.buffer = append(g.buffer, code...)
-}
-
-func (g *MultiBoolStubGenerator) append(data []byte) {
+func (g *CombinatorBoolStubGenerator) append(data []byte) {
 	g.buffer = append(g.buffer, data...)
 }
 
-func (g *MultiBoolStubGenerator) conditionClose() {
+func (g *CombinatorBoolStubGenerator) conditionClose() {
 	g.buffer = append(g.buffer, '}', n)
 }
 

@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	hexaDataProvider = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
+	hexaFieldNames = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
 )
 
 func TestFastConditionMap(t *testing.T) {
@@ -28,7 +28,7 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 	jsonNames := []string{"a"}
 
 	for i := 0; i < b.N; i++ {
-		generator := NewMultiBoolStubGenerator(fieldNames, jsonNames)
+		generator := NewCombinatorBoolStubGenerator(fieldNames, jsonNames)
 
 		_ = generator.Generate()
 	}
@@ -36,7 +36,7 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 
 func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
+		generator := NewCombinatorBoolStubGenerator(hexaFieldNames, hexaFieldNames)
 
 		_ = generator.Generate()
 	}
@@ -44,6 +44,6 @@ func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 
 func BenchmarkFastConditionMap(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		FastConditionMap(hexaDataProvider)
+		FastConditionMap(hexaFieldNames)
 	}
 }

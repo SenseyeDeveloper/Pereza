@@ -44,6 +44,7 @@ perezajson: build
         ./fixtures/boolean/double_bool_state.go \
         ./fixtures/boolean/octo_bool_state.go \
         ./fixtures/boolean/hexa_bool_state.go \
+        ./fixtures/boolean/alphabet_bool_state.go \
         ./fixtures/string_state.go \
         ./fixtures/pregen/int_state.go \
         ./fixtures/pregen/int8_state.go \
@@ -67,8 +68,8 @@ test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
 development:
-	.root/bin/pereza ./fixtures/boolean/double_bool_state.go
-	go test ./benchmarks/boolean/... -v -run=DoubleBool -bench=DoubleBool -benchmem
+	.root/bin/pereza ./fixtures/boolean/hexa_bool_state.go
+	go test ./benchmarks/boolean/... -v -run=HexaBool -bench=HexaBool -benchmem
 
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...

@@ -101,7 +101,11 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 		fieldsNames, jsonNames, standard := core.MultiBoolStandardStructure(t)
 
 		if standard {
-			return core.MultiBoolResultStub(t.Name(), fieldsNames, jsonNames)
+			if len(fieldsNames) > core.MultiBoolMaxProperties {
+				// TODO
+			}
+
+			return core.CombinatorBoolResultStub(t.Name(), fieldsNames, jsonNames)
 		}
 	}
 
