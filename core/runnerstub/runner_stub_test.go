@@ -1,8 +1,13 @@
-package core
+package runnerstub
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+)
+
+var (
+	stubTypes     = []string{"a", "ab", "abc", "abcd"}
+	stubLongTypes = []string{"a", "ab", "abc", "abcd", "abcde"}
 )
 
 func TestRunnerStub(t *testing.T) {

@@ -1,4 +1,6 @@
-package core
+package boolstub
+
+import "github.com/gopereza/pereza/core/common"
 
 /**
 // MarshalJSON supports json.Marshaler interface
@@ -24,24 +26,21 @@ func (v PerezaBoolState) MarshalJSON() ([]byte, error) {
 func BoolResultStub(typeName, fieldName, jsonName string) []byte {
 	result := make([]byte, 0, getBoolResultStubSize(typeName, fieldName, jsonName))
 
-	result = append(result, resultStubHeader...)
-	result = append(result, resultStubFuncSignatureStart...)
-	result = append(result, typeName...)
-	result = append(result, resultStubFuncSignatureEnd...)
+	result = common.AppendHeader(result, typeName)
 
 	result = append(result, "	if v."...)
 	result = append(result, fieldName...)
-	result = append(result, ' ', '{', n)
+	result = append(result, ' ', '{', '\n')
 	result = append(result, "		return []byte(`{\""...)
 	result = append(result, jsonName...)
 	result = append(result, "\":true}`), nil\n"...)
 	result = append(result, "	}"...)
-	result = append(result, n, n)
+	result = append(result, '\n', '\n')
 
 	result = append(result, "	return []byte(`{\""...)
 	result = append(result, jsonName...)
 	result = append(result, "\":false}`), nil"...)
-	result = append(result, n, '}', n)
+	result = append(result, '\n', '}', '\n')
 
 	return result
 }
@@ -52,21 +51,19 @@ func CombinatorBoolResultStub(typeName string, fieldNames, jsonNames []string) [
 
 	body := generator.Generate()
 
-	result := make([]byte, 0, wrapSignatureSize+len(body))
+	result := make([]byte, 0, common.WrapSignatureSize+len(body))
 
-	result = appendHeader(result, typeName)
+	result = common.AppendHeader(result, typeName)
 	result = append(result, body...)
-	result = appendFooter(result)
+	result = common.AppendFooter(result)
 
 	return result
 }
 
 func getBoolResultStubSize(typeName, fieldName, jsonName string) int {
 	const (
-		fixedSize = len(resultStubHeader) +
-			len(resultStubFuncSignatureStart) +
-			len(resultStubFuncSignatureEnd) +
-			83 // func other
+		fixedSize = common.WrapSignatureSize +
+			81 // func other
 	)
 
 	return fixedSize + len(typeName) + len(fieldName) + 2*len(jsonName)

@@ -1,4 +1,6 @@
-package core
+package boolstub
+
+import "github.com/gopereza/pereza/core/common"
 
 const (
 	multiBoolJSONResultHeader    = "return []byte(`{"
@@ -22,7 +24,7 @@ func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGen
 	)
 
 	commaCount := length - 1
-	jsonNameLength := stringSliceSize(jsonNames)
+	jsonNameLength := common.StringSliceSize(jsonNames)
 
 	minCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapTrue + commaCount
 	maxCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapFalse + commaCount

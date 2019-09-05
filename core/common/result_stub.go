@@ -1,4 +1,4 @@
-package core
+package common
 
 const (
 	resultStubHeader             = "// MarshalJSON supports json.Marshaler interface\n"
@@ -7,13 +7,13 @@ const (
 )
 
 const (
-	wrapSignatureSize = len(resultStubHeader) +
+	WrapSignatureSize = len(resultStubHeader) +
 		len(resultStubFuncSignatureStart) +
 		len(resultStubFuncSignatureEnd) +
 		2 // '\n', '}'
 )
 
-func appendHeader(source []byte, typeName string) []byte {
+func AppendHeader(source []byte, typeName string) []byte {
 	result := append(source, resultStubHeader...)
 	result = append(result, resultStubFuncSignatureStart...)
 	result = append(result, typeName...)
@@ -22,6 +22,6 @@ func appendHeader(source []byte, typeName string) []byte {
 	return result
 }
 
-func appendFooter(source []byte) []byte {
-	return append(source, n, '}')
+func AppendFooter(source []byte) []byte {
+	return append(source, '\n', '}')
 }

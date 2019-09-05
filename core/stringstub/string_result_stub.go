@@ -1,6 +1,9 @@
-package core
+package stringstub
 
-import "strconv"
+import (
+	"github.com/gopereza/pereza/core/common"
+	"strconv"
+)
 
 /**
 // MarshalJSON supports json.Marshaler interface
@@ -22,80 +25,47 @@ func (v *PerezaStringState) PerezaMarshalJSON() []byte {
 func StringResultStub(typeName, fieldName, jsonName string) []byte {
 	result := make([]byte, 0, getStringResultStubSize(typeName, fieldName, jsonName))
 
-	result = append(result, resultStubHeader...)
-	result = append(result, resultStubFuncSignatureStart...)
-	result = append(result, typeName...)
-	result = append(result, resultStubFuncSignatureEnd...)
+	result = common.AppendHeader(result, typeName)
 
 	result = append(result, "	const start = "...)
-	result = append(result, strconv.Itoa(getStringStartConst(jsonName))...)
+	result = strconv.AppendUint(result, uint64(common.StringStartConst(jsonName)), 10)
 	result = append(result, " // len([]byte(`{\""...)
 	result = append(result, jsonName...)
 	result = append(result, "\":\"`))\n"...)
 	result = append(result, `	const end = 2    // len([]byte{'"', '}'})`...)
-	result = append(result, n, n)
+	result = append(result, '\n', '\n')
 
 	result = append(result, `	result := make([]byte, 0, start+len(v.`...)
 	result = append(result, fieldName...)
 	result = append(result, `)+end)`...)
-	result = append(result, n)
+	result = append(result, '\n')
 
 	result = append(result, `	result = append(result, '{', '"'`...)
-	result = appendJSONFieldNameAsBytes(result, jsonName)
+	result = common.AppendJSONFieldNameAsBytes(result, jsonName)
 	result = append(result, `, '"', ':', '"')`...)
-	result = append(result, n)
+	result = append(result, '\n')
 	result = append(result, `	result = append(result, v.`...)
 	result = append(result, fieldName...)
 	result = append(result, `...)`...)
-	result = append(result, n)
+	result = append(result, '\n')
 	result = append(result, `	result = append(result, '"', '}')`...)
-	result = append(result, n, n)
+	result = append(result, '\n', '\n')
 
 	result = append(result, `	return result, nil`...)
-	result = append(result, n, '}', n)
+	result = append(result, '\n', '}', '\n')
 
 	return result
 }
 
 func getStringResultStubSize(typeName, fieldName, jsonName string) int {
 	const (
-		fixedSize = len(resultStubHeader) +
-			len(resultStubFuncSignatureStart) +
-			len(resultStubFuncSignatureEnd) +
-			270 // func other
+		fixedSize = common.WrapSignatureSize +
+			268 // func other
 	)
 
 	return fixedSize +
-		intSize(getStringStartConst(jsonName)) +
+		common.DigitsSize(common.StringStartConst(jsonName)) +
 		len(typeName) +
 		2*len(fieldName) +
 		6*len(jsonName)
-}
-
-func appendJSONFieldNameAsBytes(bytes []byte, jsonName string) []byte {
-	for _, l := range jsonName {
-		bytes = append(bytes, ',', ' ', '\'', byte(l), '\'')
-	}
-
-	return bytes
-}
-
-func getStringStartConst(jsonName string) int {
-	// len([]byte(`{"json_name":"`))
-
-	const wrapperSize = 5
-
-	return wrapperSize + len(jsonName)
-}
-
-func intSize(i int) int {
-	result := 0
-
-	for i > 0 {
-		i /= 10
-
-		result += 1
-	}
-
-	return result
 }

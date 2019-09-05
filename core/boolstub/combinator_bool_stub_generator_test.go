@@ -1,4 +1,4 @@
-package core
+package boolstub
 
 import (
 	"github.com/stretchr/testify/assert"

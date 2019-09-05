@@ -1,4 +1,4 @@
-package core
+package intstub
 
 import (
 	"github.com/stretchr/testify/assert"

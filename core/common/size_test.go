@@ -1,4 +1,4 @@
-package core
+package common
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -7,15 +7,14 @@ import (
 
 var (
 	stubTypes     = []string{"a", "ab", "abc", "abcd"}
-	stubLongTypes = []string{"a", "ab", "abc", "abcd", "abcde"}
 )
 
 func TestStringSliceSize(t *testing.T) {
-	assert.Equal(t, 10, stringSliceSize(stubTypes))
+	assert.Equal(t, 10, StringSliceSize(stubTypes))
 }
 
 func BenchmarkStringSliceSize(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = stringSliceSize(stubTypes)
+		_ = StringSliceSize(stubTypes)
 	}
 }

@@ -1,4 +1,6 @@
-package core
+package boolstub
+
+import "github.com/gopereza/pereza/core/common"
 
 const (
 	conditionStart     = "if v."
@@ -69,7 +71,7 @@ func (g *CombinatorBoolStubGenerator) append(data []byte) {
 }
 
 func (g *CombinatorBoolStubGenerator) conditionClose() {
-	g.buffer = append(g.buffer, '}', n)
+	g.buffer = append(g.buffer, '}', '\n')
 }
 
 func FastConditionMap(fieldNames []string) map[string][]byte {
@@ -77,7 +79,7 @@ func FastConditionMap(fieldNames []string) map[string][]byte {
 
 	fastConditionMap := make(map[string][]byte, length)
 
-	capacity := stringSliceSize(fieldNames) + length*conditionFixedSize
+	capacity := common.StringSliceSize(fieldNames) + length*conditionFixedSize
 	once := make([]byte, 0, capacity)
 
 	for _, fieldName := range fieldNames {
