@@ -67,7 +67,11 @@ generate: root perezajson easyjson
 test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
-development:
+dev-hexa:
+	.root/bin/pereza ./fixtures/boolean/hexa_bool_state.go
+	go test ./benchmarks/boolean/... -v -run=HexaBool -bench=HexaBool -benchmem
+
+dev-alphabet:
 	.root/bin/pereza ./fixtures/boolean/alphabet_bool_state.go
 	go test ./benchmarks/boolean/... -v -run=AlphabetBool -bench=AlphabetBool -benchmem
 

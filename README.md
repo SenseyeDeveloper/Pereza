@@ -59,5 +59,11 @@ struct {
 ```text
 BenchmarkHexaBoolStateEncodingJSON     	 1000000	      1549 ns/op	     624 B/op	       4 allocs/op
 BenchmarkHexaBoolStateEasyJSON         	 2000000	       691 ns/op	     752 B/op	       4 allocs/op
-BenchmarkHexaBoolStatePerezaJSON       	 3000000	       397 ns/op	     160 B/op	       1 allocs/op
+BenchmarkHexaBoolStatePerezaJSON     	20000000	        85.3 ns/op	     176 B/op	       1 allocs/op
+```
+
+```text
+BenchmarkAlphabetBoolStateEncodingJSON   	 1000000	      2076 ns/op	     640 B/op	       4 allocs/op
+BenchmarkAlphabetBoolStateEasyJSON       	 2000000	       912 ns/op	     864 B/op	       4 allocs/op
+BenchmarkAlphabetBoolStatePerezaJSON     	10000000	       127 ns/op	     288 B/op	       1 allocs/op
 ```
