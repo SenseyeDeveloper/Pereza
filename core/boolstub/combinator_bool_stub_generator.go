@@ -11,7 +11,7 @@ const (
 type CombinatorBoolStubGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
-	pattern          *MultiBoolJSONResultGenerator
+	pattern          *DumpGenerator
 	replacer         *BoolStateReplacer
 	buffer           []byte
 	returnDepth      int
@@ -19,7 +19,7 @@ type CombinatorBoolStubGenerator struct {
 }
 
 func NewCombinatorBoolStubGenerator(fieldNames, jsonNames []string) *CombinatorBoolStubGenerator {
-	pattern := NewMultiBoolJSONResultGenerator(jsonNames)
+	pattern := NewDumpGenerator(jsonNames)
 
 	length := len(fieldNames)
 

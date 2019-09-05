@@ -10,7 +10,7 @@ var (
 )
 
 func TestMultiBoolJSONResultGenerator_Generate(t *testing.T) {
-	generator := NewMultiBoolJSONResultGenerator(multiBoolJSONPatternData)
+	generator := NewDumpGenerator(multiBoolJSONPatternData)
 
 	assert.Equal(
 		t,
@@ -26,7 +26,7 @@ func TestMultiBoolJSONResultGenerator_Generate(t *testing.T) {
 }
 
 func BenchmarkMultiBoolJSONResultGenerator_Generate(b *testing.B) {
-	generator := NewMultiBoolJSONResultGenerator(multiBoolJSONPatternData)
+	generator := NewDumpGenerator(multiBoolJSONPatternData)
 	states := []bool{false, false, false, false, false, false, false, false}
 
 	for i := 0; i < b.N; i++ {

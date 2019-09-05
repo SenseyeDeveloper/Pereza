@@ -8,14 +8,14 @@ const (
 	multiBoolJSONResultFixedSize = len(multiBoolJSONResultHeader) + len(multiBoolJSONResultFooter)
 )
 
-type MultiBoolJSONResultGenerator struct {
+type DumpGenerator struct {
 	jsonNames   []string
 	buffer      []byte
 	last        int
 	avgCapacity int
 }
 
-func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGenerator {
+func NewDumpGenerator(jsonNames []string) *DumpGenerator {
 	length := len(jsonNames)
 
 	const (
@@ -29,7 +29,7 @@ func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGen
 	minCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapTrue + commaCount
 	maxCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapFalse + commaCount
 
-	return &MultiBoolJSONResultGenerator{
+	return &DumpGenerator{
 		jsonNames:   jsonNames,
 		buffer:      make([]byte, 0, maxCapacity),
 		last:        commaCount,
@@ -37,7 +37,7 @@ func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGen
 	}
 }
 
-func (g *MultiBoolJSONResultGenerator) Generate(values []bool) []byte {
+func (g *DumpGenerator) Generate(values []bool) []byte {
 	result := g.buffer[:0]
 
 	result = append(result, multiBoolJSONResultHeader...)
@@ -55,7 +55,7 @@ func (g *MultiBoolJSONResultGenerator) Generate(values []bool) []byte {
 	return result
 }
 
-func (g *MultiBoolJSONResultGenerator) AvgCapacity() int {
+func (g *DumpGenerator) AvgCapacity() int {
 	return g.avgCapacity
 }
 
