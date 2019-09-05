@@ -66,7 +66,7 @@ generate: root perezajson easyjson
 test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
-development: pregen
+development:
 	.root/bin/pereza ./fixtures/boolean/double_bool_state.go
 	go test ./benchmarks/boolean/... -v -run=DoubleBool -bench=DoubleBool -benchmem
 
