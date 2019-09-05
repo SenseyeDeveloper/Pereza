@@ -68,8 +68,8 @@ test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
 development:
-	.root/bin/pereza ./fixtures/boolean/hexa_bool_state.go
-	go test ./benchmarks/boolean/... -v -run=HexaBool -bench=HexaBool -benchmem
+	.root/bin/pereza ./fixtures/boolean/alphabet_bool_state.go
+	go test ./benchmarks/boolean/... -v -run=AlphabetBool -bench=AlphabetBool -benchmem
 
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...

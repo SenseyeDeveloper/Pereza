@@ -107,7 +107,7 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 		if standard {
 			if core.MatchAllBooleanFields(t) {
 				if len(fieldsNames) > core.MultiBoolMaxProperties {
-					// TODO
+					return boolstub.LargeFieldStub(t.Name(), fieldsNames, jsonNames)
 				}
 
 				return boolstub.CombinatorBoolResultStub(t.Name(), fieldsNames, jsonNames)

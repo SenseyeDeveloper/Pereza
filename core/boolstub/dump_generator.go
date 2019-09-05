@@ -17,11 +17,6 @@ type DumpGenerator struct {
 func NewDumpGenerator(jsonNames []string) *DumpGenerator {
 	length := len(jsonNames)
 
-	const (
-		wrapTrue  = 7 // len(`"":true`)
-		wrapFalse = 8 // len(`"":false`)
-	)
-
 	commaCount := length - 1
 	jsonNameLength := common.StringSliceSize(jsonNames)
 
@@ -30,7 +25,7 @@ func NewDumpGenerator(jsonNames []string) *DumpGenerator {
 	return &DumpGenerator{
 		jsonNames: jsonNames,
 		buffer:    make([]byte, 0, maxCapacity),
-		last:      commaCount,
+		last:      len(jsonNames) - 1,
 	}
 }
 
