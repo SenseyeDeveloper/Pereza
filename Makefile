@@ -18,6 +18,8 @@ clean:
 	rm -rf benchmarks/pregen
 	rm -rf fixtures/*_easyjson.go
 	rm -rf fixtures/*_perezajson.go
+	rm -rf fixtures/boolean/*_easyjson.go
+	rm -rf fixtures/boolean/*_perezajson.go
 
 pregen-build:
 	go build -i -o .root/bin/pregenref $(PKG)/pereza/pregenerator/reflect
@@ -38,10 +40,10 @@ build: pregen
 
 perezajson: build
 	.root/bin/pereza ./fixtures/empty_state.go \
-        ./fixtures/bool_state.go \
-        ./fixtures/double_bool_state.go \
-        ./fixtures/octo_bool_state.go \
-        ./fixtures/hexa_bool_state.go \
+        ./fixtures/boolean/bool_state.go \
+        ./fixtures/boolean/double_bool_state.go \
+        ./fixtures/boolean/octo_bool_state.go \
+        ./fixtures/boolean/hexa_bool_state.go \
         ./fixtures/string_state.go \
         ./fixtures/pregen/int_state.go \
         ./fixtures/pregen/int8_state.go \
@@ -55,7 +57,9 @@ perezajson: build
         ./fixtures/pregen/uint64_state.go
 
 easyjson:
-	easyjson ./fixtures ./fixtures/pregen
+	easyjson ./fixtures \
+        ./fixtures/pregen \
+        ./fixtures/boolean
 
 generate: root perezajson easyjson
 

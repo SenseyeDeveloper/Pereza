@@ -1,8 +1,8 @@
-package benchmarks
+package boolean
 
 import (
 	"encoding/json"
-	"github.com/gopereza/pereza/fixtures"
+	"github.com/gopereza/pereza/fixtures/boolean"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -23,7 +23,7 @@ var (
 func TestDoubleBoolStateEncodingJSON(t *testing.T) {
 	for active, approveExpectMap := range doubleBoolStateDataProvider {
 		for approve, expect := range approveExpectMap {
-			source := fixtures.DoubleBoolState{
+			source := boolean.DoubleBoolState{
 				Active:  active,
 				Approve: approve,
 			}
@@ -38,7 +38,7 @@ func TestDoubleBoolStateEncodingJSON(t *testing.T) {
 func TestDoubleBoolStateEasyJSON(t *testing.T) {
 	for active, approveExpectMap := range doubleBoolStateDataProvider {
 		for approve, expect := range approveExpectMap {
-			source := fixtures.EasyDoubleBoolState{
+			source := boolean.EasyDoubleBoolState{
 				Active:  active,
 				Approve: approve,
 			}
@@ -53,7 +53,7 @@ func TestDoubleBoolStateEasyJSON(t *testing.T) {
 func TestDoubleBoolStatePereza(t *testing.T) {
 	for active, approveExpectMap := range doubleBoolStateDataProvider {
 		for approve, expect := range approveExpectMap {
-			source := fixtures.PerezaDoubleBoolState{
+			source := boolean.PerezaDoubleBoolState{
 				Active:  active,
 				Approve: approve,
 			}
@@ -66,7 +66,7 @@ func TestDoubleBoolStatePereza(t *testing.T) {
 }
 
 func BenchmarkDoubleBoolStateEncodingJSON(b *testing.B) {
-	source := fixtures.DoubleBoolState{
+	source := boolean.DoubleBoolState{
 		Active:  true,
 		Approve: true,
 	}
@@ -77,7 +77,7 @@ func BenchmarkDoubleBoolStateEncodingJSON(b *testing.B) {
 }
 
 func BenchmarkDoubleBoolStateEasyJSON(b *testing.B) {
-	source := fixtures.EasyDoubleBoolState{
+	source := boolean.EasyDoubleBoolState{
 		Active:  true,
 		Approve: true,
 	}
@@ -88,7 +88,7 @@ func BenchmarkDoubleBoolStateEasyJSON(b *testing.B) {
 }
 
 func BenchmarkDoubleBoolStatePerezaJSON(b *testing.B) {
-	source := fixtures.PerezaDoubleBoolState{
+	source := boolean.PerezaDoubleBoolState{
 		Active:  true,
 		Approve: true,
 	}

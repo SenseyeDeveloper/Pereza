@@ -1,13 +1,13 @@
-package benchmarks
+package boolean
 
 import (
 	"encoding/json"
-	"github.com/gopereza/pereza/fixtures"
+	"github.com/gopereza/pereza/fixtures/boolean"
 	"testing"
 )
 
 func BenchmarkOctoBoolStateEncodingJSON(b *testing.B) {
-	source := fixtures.OctoBoolState{}
+	source := boolean.OctoBoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = json.Marshal(source)
@@ -15,7 +15,7 @@ func BenchmarkOctoBoolStateEncodingJSON(b *testing.B) {
 }
 
 func BenchmarkOctoBoolStateEasyJSON(b *testing.B) {
-	source := fixtures.EasyOctoBoolState{}
+	source := boolean.EasyOctoBoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()
@@ -23,7 +23,7 @@ func BenchmarkOctoBoolStateEasyJSON(b *testing.B) {
 }
 
 func BenchmarkOctoBoolStatePerezaJSON(b *testing.B) {
-	source := fixtures.PerezaOctoBoolState{}
+	source := boolean.PerezaOctoBoolState{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = source.MarshalJSON()

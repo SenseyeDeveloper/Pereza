@@ -1,4 +1,4 @@
-package fixtures
+package boolean
 
 type OctoBoolState struct {
 	A bool `json:"a"`

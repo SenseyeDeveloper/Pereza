@@ -1,4 +1,4 @@
-package fixtures
+package boolean
 
 type BoolState struct {
 	State bool `json:"state"`

@@ -1,4 +1,4 @@
-package fixtures
+package boolean
 
 type DoubleBoolState struct {
 	Active  bool `json:"active"`

@@ -1,8 +1,8 @@
-package benchmarks
+package boolean
 
 import (
 	"encoding/json"
-	"github.com/gopereza/pereza/fixtures"
+	"github.com/gopereza/pereza/fixtures/boolean"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -16,7 +16,7 @@ var (
 
 func TestBoolStateEncodingJSON(t *testing.T) {
 	for state, expect := range boolStateDataProvider {
-		source := fixtures.BoolState{
+		source := boolean.BoolState{
 			State: state,
 		}
 
@@ -28,7 +28,7 @@ func TestBoolStateEncodingJSON(t *testing.T) {
 
 func TestBoolStateEasyJSON(t *testing.T) {
 	for state, expect := range boolStateDataProvider {
-		source := fixtures.EasyBoolState{
+		source := boolean.EasyBoolState{
 			State: state,
 		}
 
@@ -40,7 +40,7 @@ func TestBoolStateEasyJSON(t *testing.T) {
 
 func TestBoolStatePereza(t *testing.T) {
 	for state, expect := range boolStateDataProvider {
-		source := fixtures.PerezaBoolState{
+		source := boolean.PerezaBoolState{
 			State: state,
 		}
 
@@ -51,7 +51,7 @@ func TestBoolStatePereza(t *testing.T) {
 }
 
 func BenchmarkBoolStateEncodingJSON(b *testing.B) {
-	source := fixtures.BoolState{
+	source := boolean.BoolState{
 		State: true,
 	}
 
@@ -61,7 +61,7 @@ func BenchmarkBoolStateEncodingJSON(b *testing.B) {
 }
 
 func BenchmarkBoolStateEasyJSON(b *testing.B) {
-	source := fixtures.EasyBoolState{
+	source := boolean.EasyBoolState{
 		State: true,
 	}
 
@@ -71,7 +71,7 @@ func BenchmarkBoolStateEasyJSON(b *testing.B) {
 }
 
 func BenchmarkBoolStatePerezaJSON(b *testing.B) {
-	source := fixtures.PerezaBoolState{
+	source := boolean.PerezaBoolState{
 		State: true,
 	}
 

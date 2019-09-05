@@ -1,4 +1,4 @@
-package fixtures
+package boolean
 
 type HexaBoolState struct {
 	A bool `json:"a"`
