@@ -55,12 +55,14 @@ perezajson: build
         ./fixtures/pregen/uint8_state.go \
         ./fixtures/pregen/uint16_state.go \
         ./fixtures/pregen/uint32_state.go \
-        ./fixtures/pregen/uint64_state.go
+        ./fixtures/pregen/uint64_state.go \
+        ./fixtures/complex/short_user.go
 
 easyjson:
 	easyjson ./fixtures \
         ./fixtures/pregen \
-        ./fixtures/boolean
+        ./fixtures/boolean \
+        ./fixtures/complex
 
 generate: root perezajson easyjson
 
