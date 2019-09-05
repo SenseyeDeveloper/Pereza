@@ -23,7 +23,7 @@ func TestFastConditionMap(t *testing.T) {
 	)
 }
 
-func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
+func BenchmarkCombinatorGenerator_Generate_One(b *testing.B) {
 	fieldNames := []string{"A"}
 	jsonNames := []string{"a"}
 
@@ -34,7 +34,7 @@ func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
 	}
 }
 
-func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
+func BenchmarkCombinatorGenerator_Generate_Hex(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		generator := NewCombinatorGenerator(hexaFieldNames, hexaFieldNames)
 

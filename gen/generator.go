@@ -84,7 +84,7 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 
 			switch kind {
 			case reflect.Bool:
-				return boolstub.BoolResultStub(t.Name(), field.Name, jsonName)
+				return boolstub.OneFieldStub(t.Name(), field.Name, jsonName)
 			case reflect.String:
 				return stringstub.StringResultStub(t.Name(), field.Name, jsonName)
 			case reflect.Int,

@@ -23,7 +23,7 @@ func (v PerezaBoolState) MarshalJSON() ([]byte, error) {
 */
 
 // Static allocate
-func BoolResultStub(typeName, fieldName, jsonName string) []byte {
+func OneFieldStub(typeName, fieldName, jsonName string) []byte {
 	result := make([]byte, 0, getBoolResultStubSize(typeName, fieldName, jsonName))
 
 	result = common.AppendHeader(result, typeName)
@@ -41,21 +41,6 @@ func BoolResultStub(typeName, fieldName, jsonName string) []byte {
 	result = append(result, jsonName...)
 	result = append(result, "\":false}`), nil"...)
 	result = append(result, '\n', '}', '\n')
-
-	return result
-}
-
-// Dynamic allocate
-func CombinatorBoolResultStub(typeName string, fieldNames, jsonNames []string) []byte {
-	generator := NewCombinatorGenerator(fieldNames, jsonNames)
-
-	body := generator.Generate()
-
-	result := make([]byte, 0, common.WrapSignatureSize+len(body))
-
-	result = common.AppendHeader(result, typeName)
-	result = append(result, body...)
-	result = common.AppendFooter(result)
 
 	return result
 }

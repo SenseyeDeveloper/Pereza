@@ -9,10 +9,9 @@ const (
 )
 
 type DumpGenerator struct {
-	jsonNames   []string
-	buffer      []byte
-	last        int
-	avgCapacity int
+	jsonNames []string
+	buffer    []byte
+	last      int
 }
 
 func NewDumpGenerator(jsonNames []string) *DumpGenerator {
@@ -20,20 +19,18 @@ func NewDumpGenerator(jsonNames []string) *DumpGenerator {
 
 	const (
 		wrapTrue  = 7 // len(`"":true`)
-		wrapFalse = 8 // len(`"":true`)
+		wrapFalse = 8 // len(`"":false`)
 	)
 
 	commaCount := length - 1
 	jsonNameLength := common.StringSliceSize(jsonNames)
 
-	minCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapTrue + commaCount
 	maxCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapFalse + commaCount
 
 	return &DumpGenerator{
-		jsonNames:   jsonNames,
-		buffer:      make([]byte, 0, maxCapacity),
-		last:        commaCount,
-		avgCapacity: (minCapacity + maxCapacity + 1) / 2,
+		jsonNames: jsonNames,
+		buffer:    make([]byte, 0, maxCapacity),
+		last:      commaCount,
 	}
 }
 
@@ -53,10 +50,6 @@ func (g *DumpGenerator) Generate(values []bool) []byte {
 	result = append(result, multiBoolJSONResultFooter...)
 
 	return result
-}
-
-func (g *DumpGenerator) AvgCapacity() int {
-	return g.avgCapacity
 }
 
 func AppendBool(source []byte, jsonName string, value bool) []byte {

@@ -8,6 +8,21 @@ const (
 	conditionFixedSize = len(conditionStart) + len(conditionEnd)
 )
 
+// Dynamic allocate
+func CombinatorBoolResultStub(typeName string, fieldNames, jsonNames []string) []byte {
+	generator := NewCombinatorGenerator(fieldNames, jsonNames)
+
+	body := generator.Generate()
+
+	result := make([]byte, 0, common.WrapSignatureSize+len(body))
+
+	result = common.AppendHeader(result, typeName)
+	result = append(result, body...)
+	result = common.AppendFooter(result)
+
+	return result
+}
+
 type CombinatorGenerator struct {
 	fieldNames       []string
 	fastConditionMap map[string][]byte
@@ -15,7 +30,6 @@ type CombinatorGenerator struct {
 	replacer         *BoolStateReplacer
 	buffer           []byte
 	returnDepth      int
-	capacity         int
 }
 
 func NewCombinatorGenerator(fieldNames, jsonNames []string) *CombinatorGenerator {
@@ -23,16 +37,13 @@ func NewCombinatorGenerator(fieldNames, jsonNames []string) *CombinatorGenerator
 
 	length := len(fieldNames)
 
-	capacity := pattern.AvgCapacity()<<uint(length) + NestedConditionWrapSize(fieldNames)
-
 	return &CombinatorGenerator{
 		fieldNames:       fieldNames,
 		fastConditionMap: FastConditionMap(fieldNames),
 		pattern:          pattern,
 		replacer:         NewBoolStateReplacer(length),
-		buffer:           make([]byte, 0, capacity), // dynamic allocate
+		buffer:           make([]byte, 0, 1024), // dynamic allocate
 		returnDepth:      length - 1,
-		capacity:         capacity,
 	}
 }
 
@@ -95,18 +106,4 @@ func FastConditionMap(fieldNames []string) map[string][]byte {
 	}
 
 	return fastConditionMap
-}
-
-func NestedConditionWrapSize(fields []string) int {
-	result := 0
-
-	for i, field := range fields {
-		result += ConditionWrapSize(field) << uint(i)
-	}
-
-	return result
-}
-
-func ConditionWrapSize(field string) int {
-	return conditionFixedSize + len(field) + 2 // 2 is '}', '\n'
 }
