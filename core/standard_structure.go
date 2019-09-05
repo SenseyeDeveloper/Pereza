@@ -21,6 +21,10 @@ func MultiBoolStandardStructure(t reflect.Type) ([]string, []string, bool) {
 	for i := 0; i < length; i++ {
 		field := t.Field(i)
 
+		if field.Type.Kind() != reflect.Bool {
+			return nil, nil, false
+		}
+
 		jsonName, standard := StandardStructureField(field)
 
 		if standard {
