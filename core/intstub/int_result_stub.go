@@ -47,9 +47,6 @@ func IntResultStubByType(typeName, fieldName, jsonName string, t reflect.Kind) [
 func IntResultStubBySettings(typeName, fieldName, jsonName string, comment pregen.IntSizeComment) []byte {
 	result := make([]byte, 0)
 
-	result = append(result, IntImport...)
-	result = append(result, '\n', '\n')
-
 	result = common.AppendHeader(result, typeName)
 
 	result = append(result, "	const start = "...)

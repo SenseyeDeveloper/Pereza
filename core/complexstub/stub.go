@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func StandardStub(t reflect.Type, fieldNames, jsonNames []string) []byte {
+func StandardStub(t reflect.Type, fieldNames, jsonNames []string) ([]byte, []string) {
 	wrapSize := WrapMultiSize(jsonNames)
 
 	totalSize := make([]string, 0, 4)
@@ -43,8 +43,6 @@ func StandardStub(t reflect.Type, fieldNames, jsonNames []string) []byte {
 
 	result := make([]byte, 0)
 
-	result = common.AppendImports(result, imports)
-
 	result = common.AppendHeader(result, t.Name())
 	result = append(result, '\t')
 	result = append(result, "result := make([]byte, 0, "+strings.Join(totalSize, " + ")+")"...)
@@ -56,7 +54,7 @@ func StandardStub(t reflect.Type, fieldNames, jsonNames []string) []byte {
 
 	result = common.AppendFooter(result)
 
-	return result
+	return result, imports
 }
 
 func AppendFirstField(dst []byte, kind reflect.Kind, fieldName, jsonName string) ([]byte, string, []string) {

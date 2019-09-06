@@ -45,9 +45,24 @@ func (g *Generator) Add(obj interface{}) {
 func (g *Generator) Run(out io.Writer) error {
 	out.Write(g.header())
 
+	body := make([]byte, 0)
+	imports := make([]string, 0)
+
 	for _, t := range g.types {
-		out.Write(g.genStructEncoder(t))
+		typeBody, typeImports := g.genStructEncoder(t)
+
+		body = append(body, typeBody...)
+		imports = append(imports, typeImports...)
 	}
+
+	if len(imports) > 0 {
+		result := common.AppendImports(nil, imports)
+
+		out.Write(result)
+		out.Write([]byte{'\n', '\n'})
+	}
+
+	out.Write(body)
 
 	return nil
 }
@@ -58,7 +73,7 @@ func (g *Generator) header() []byte {
 
 package `
 
-	result := make([]byte, 0, len(header)+len(g.packageName)+2)
+	var result []byte
 
 	result = append(result, header...)
 	result = append(result, g.packageName...)
@@ -67,11 +82,11 @@ package `
 	return result
 }
 
-func (g *Generator) genStructEncoder(t reflect.Type) []byte {
+func (g *Generator) genStructEncoder(t reflect.Type) ([]byte, []string) {
 	length := t.NumField()
 
 	if length == 0 {
-		return common.EmptyResultStub(t.Name())
+		return common.EmptyResultStub(t.Name()), nil
 	}
 
 	switch length {
@@ -85,9 +100,9 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 
 			switch kind {
 			case reflect.Bool:
-				return boolstub.OneFieldStub(t.Name(), field.Name, jsonName)
+				return boolstub.OneFieldStub(t.Name(), field.Name, jsonName), nil
 			case reflect.String:
-				return stringstub.StringResultStub(t.Name(), field.Name, jsonName)
+				return stringstub.StringResultStub(t.Name(), field.Name, jsonName), nil
 			case reflect.Int,
 				reflect.Int8,
 				reflect.Int16,
@@ -99,7 +114,7 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 				reflect.Uint32,
 				reflect.Uint64:
 
-				return intstub.IntResultStubByType(t.Name(), field.Name, jsonName, kind)
+				return intstub.IntResultStubByType(t.Name(), field.Name, jsonName, kind), []string{intstub.IntImport}
 			}
 		}
 	default:
@@ -108,15 +123,15 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 		if standard {
 			if core.MatchAllBooleanFields(t) {
 				if len(fieldsNames) > core.MultiBoolMaxProperties {
-					return boolstub.LargeFieldStub(t.Name(), fieldsNames, jsonNames)
+					return boolstub.LargeFieldStub(t.Name(), fieldsNames, jsonNames), nil
 				}
 
-				return boolstub.CombinatorBoolResultStub(t.Name(), fieldsNames, jsonNames)
+				return boolstub.CombinatorBoolResultStub(t.Name(), fieldsNames, jsonNames), nil
 			}
 
 			return complexstub.StandardStub(t, fieldsNames, jsonNames)
 		}
 	}
 
-	return common.EmptyResultStub(t.Name())
+	return common.EmptyResultStub(t.Name()), nil
 }

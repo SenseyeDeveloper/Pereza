@@ -14,6 +14,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fixtures(pwd + "/fixtures/pregen/")
-	benchmarks(pwd + "/benchmarks/pregen/")
+	fixtures(pwd + "/fixtures/json/pregen/")
+	benchmarks(pwd + "/benchmarks/json/pregen/")
 }

@@ -1,4 +1,4 @@
-package benchmarks
+package json
 
 import (
 	"encoding/json"

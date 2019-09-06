@@ -13,7 +13,7 @@ const (
 
 import (
 	"encoding/json"
-	"github.com/gopereza/pereza/fixtures/pregen"
+	"github.com/gopereza/pereza/fixtures/json/pregen"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
