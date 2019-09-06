@@ -14,8 +14,8 @@ root: .root/src/$(PKG)
 clean:
 	rm -rf .root
 	rm -rf pregen
-	rm -rf fixtures/pregen
-	rm -rf benchmarks/pregen
+	rm -rf fixtures/json/pregen
+	rm -rf benchmarks/json/pregen
 	rm -rf fixtures/*_easyjson.go
 	rm -rf fixtures/*_perezajson.go
 	rm -rf fixtures/boolean/*_easyjson.go
@@ -30,10 +30,11 @@ pregen: pregen-build
 	.root/bin/pregenref > ./pregen/reflect_int_size.go
 	go fmt ./pregen/...
 
-	mkdir -p ./fixtures/pregen
-	mkdir -p ./benchmarks/pregen
+	mkdir -p ./fixtures/json/pregen
+	mkdir -p ./benchmarks/json/pregen
 	.root/bin/pregentest
-	go fmt ./fixtures/pregen/...
+	go fmt ./fixtures/json/pregen/...
+	go fmt ./benchmarks/json/pregen...
 
 build: pregen
 	go build -i -o .root/bin/pereza $(PKG)/pereza/generator
@@ -46,21 +47,21 @@ perezajson: build
         ./fixtures/boolean/hexa_bool_state.go \
         ./fixtures/boolean/alphabet_bool_state.go \
         ./fixtures/string_state.go \
-        ./fixtures/pregen/int_state.go \
-        ./fixtures/pregen/int8_state.go \
-        ./fixtures/pregen/int16_state.go \
-        ./fixtures/pregen/int32_state.go \
-        ./fixtures/pregen/int64_state.go \
-        ./fixtures/pregen/uint_state.go \
-        ./fixtures/pregen/uint8_state.go \
-        ./fixtures/pregen/uint16_state.go \
-        ./fixtures/pregen/uint32_state.go \
-        ./fixtures/pregen/uint64_state.go \
+        ./fixtures/json/pregen/int_state.go \
+        ./fixtures/json/pregen/int8_state.go \
+        ./fixtures/json/pregen/int16_state.go \
+        ./fixtures/json/pregen/int32_state.go \
+        ./fixtures/json/pregen/int64_state.go \
+        ./fixtures/json/pregen/uint_state.go \
+        ./fixtures/json/pregen/uint8_state.go \
+        ./fixtures/json/pregen/uint16_state.go \
+        ./fixtures/json/pregen/uint32_state.go \
+        ./fixtures/json/pregen/uint64_state.go \
         ./fixtures/complex/short_user.go
 
 easyjson:
 	easyjson ./fixtures \
-        ./fixtures/pregen \
+        ./fixtures/json/pregen \
         ./fixtures/boolean \
         ./fixtures/complex
 
