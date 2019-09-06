@@ -8,14 +8,14 @@ import (
 )
 
 var (
-	boolStateDataProvider = map[bool]string{
+	oneDataProvider = map[bool]string{
 		false: "\x0d\x00\x00\x00\x08state\x00\x00\x00",
 		true:  "\x0d\x00\x00\x00\x08state\x00\x01\x00",
 	}
 )
 
-func TestBoolStateMongoMarshalBSON(t *testing.T) {
-	for state, expect := range boolStateDataProvider {
+func TestOneMongoMarshalBSON(t *testing.T) {
+	for state, expect := range oneDataProvider {
 		source := boolean.BoolState{
 			State: state,
 		}
@@ -26,8 +26,8 @@ func TestBoolStateMongoMarshalBSON(t *testing.T) {
 	}
 }
 
-func TestBoolStatePerezaMarshalBSON(t *testing.T) {
-	for state, expect := range boolStateDataProvider {
+func TestOnePerezaMarshalBSON(t *testing.T) {
+	for state, expect := range oneDataProvider {
 		source := boolean.PerezaBoolState{
 			State: state,
 		}
@@ -38,7 +38,7 @@ func TestBoolStatePerezaMarshalBSON(t *testing.T) {
 	}
 }
 
-func BenchmarkBoolStateMongoMarshalBSON(b *testing.B) {
+func BenchmarkOneMongoMarshalBSON(b *testing.B) {
 	source := boolean.BoolState{
 		State: true,
 	}
@@ -48,7 +48,7 @@ func BenchmarkBoolStateMongoMarshalBSON(b *testing.B) {
 	}
 }
 
-func BenchmarkBoolStatePerezaMarshalBSON(b *testing.B) {
+func BenchmarkOnePerezaMarshalBSON(b *testing.B) {
 	source := boolean.PerezaBoolState{
 		State: true,
 	}
