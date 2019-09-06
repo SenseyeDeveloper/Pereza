@@ -59,5 +59,30 @@ struct {
 ```text
 BenchmarkHexaBoolStateEncodingJSON     	 1000000	      1549 ns/op	     624 B/op	       4 allocs/op
 BenchmarkHexaBoolStateEasyJSON         	 2000000	       691 ns/op	     752 B/op	       4 allocs/op
-BenchmarkHexaBoolStatePerezaJSON       	 3000000	       397 ns/op	     160 B/op	       1 allocs/op
+BenchmarkHexaBoolStatePerezaJSON     	20000000	        85.3 ns/op	     176 B/op	       1 allocs/op
+```
+
+```text
+BenchmarkAlphabetBoolStateEncodingJSON   	 1000000	      2076 ns/op	     640 B/op	       4 allocs/op
+BenchmarkAlphabetBoolStateEasyJSON       	 2000000	       912 ns/op	     864 B/op	       4 allocs/op
+BenchmarkAlphabetBoolStatePerezaJSON     	10000000	       127 ns/op	     288 B/op	       1 allocs/op
+```
+
+##### Multi type one level structure
+```golang
+struct {
+	ID        uint32 `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Country   string `json:"country"`
+	CreatedAt uint32 `json:"created_at"`
+	UpdatedAt uint32 `json:"updated_at"`
+	Enabled   bool   `json:"enabled"`
+}
+```
+
+```text
+BenchmarkShortUserEncodingJSON   	 1000000	      1584 ns/op	     600 B/op	       6 allocs/op
+BenchmarkShortUserEasyJSON       	 5000000	       261 ns/op	     128 B/op	       1 allocs/op
+BenchmarkShortUserPerezaJSON     	20000000	       104 ns/op	     128 B/op	       1 allocs/op
 ```

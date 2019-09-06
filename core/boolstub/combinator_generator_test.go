@@ -1,4 +1,4 @@
-package core
+package boolstub
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	hexaDataProvider = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
+	hexaFieldNames = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"}
 )
 
 func TestFastConditionMap(t *testing.T) {
@@ -23,20 +23,20 @@ func TestFastConditionMap(t *testing.T) {
 	)
 }
 
-func BenchmarkOneBoolStubGenerator_Generate(b *testing.B) {
+func BenchmarkCombinatorGenerator_Generate_One(b *testing.B) {
 	fieldNames := []string{"A"}
 	jsonNames := []string{"a"}
 
 	for i := 0; i < b.N; i++ {
-		generator := NewMultiBoolStubGenerator(fieldNames, jsonNames)
+		generator := NewCombinatorGenerator(fieldNames, jsonNames)
 
 		_ = generator.Generate()
 	}
 }
 
-func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
+func BenchmarkCombinatorGenerator_Generate_Hex(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		generator := NewMultiBoolStubGenerator(hexaDataProvider, hexaDataProvider)
+		generator := NewCombinatorGenerator(hexaFieldNames, hexaFieldNames)
 
 		_ = generator.Generate()
 	}
@@ -44,6 +44,6 @@ func BenchmarkMultiBoolStubGenerator_Generate(b *testing.B) {
 
 func BenchmarkFastConditionMap(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		FastConditionMap(hexaDataProvider)
+		FastConditionMap(hexaFieldNames)
 	}
 }

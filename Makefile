@@ -44,6 +44,7 @@ perezajson: build
         ./fixtures/boolean/double_bool_state.go \
         ./fixtures/boolean/octo_bool_state.go \
         ./fixtures/boolean/hexa_bool_state.go \
+        ./fixtures/boolean/alphabet_bool_state.go \
         ./fixtures/string_state.go \
         ./fixtures/pregen/int_state.go \
         ./fixtures/pregen/int8_state.go \
@@ -54,21 +55,31 @@ perezajson: build
         ./fixtures/pregen/uint8_state.go \
         ./fixtures/pregen/uint16_state.go \
         ./fixtures/pregen/uint32_state.go \
-        ./fixtures/pregen/uint64_state.go
+        ./fixtures/pregen/uint64_state.go \
+        ./fixtures/complex/short_user.go
 
 easyjson:
 	easyjson ./fixtures \
         ./fixtures/pregen \
-        ./fixtures/boolean
+        ./fixtures/boolean \
+        ./fixtures/complex
 
 generate: root perezajson easyjson
 
 test: generate dep
 	go test ./benchmarks/... -v -bench=. -benchmem
 
-development:
-	.root/bin/pereza ./fixtures/boolean/double_bool_state.go
-	go test ./benchmarks/boolean/... -v -run=DoubleBool -bench=DoubleBool -benchmem
+dev-hexa:
+	.root/bin/pereza ./fixtures/boolean/hexa_bool_state.go
+	go test ./benchmarks/boolean/... -v -run=HexaBool -bench=HexaBool -benchmem
+
+dev-alphabet:
+	.root/bin/pereza ./fixtures/boolean/alphabet_bool_state.go
+	go test ./benchmarks/boolean/... -v -run=AlphabetBool -bench=AlphabetBool -benchmem
+
+dev-user:
+	.root/bin/pereza ./fixtures/complex/short_user.go
+	go test ./benchmarks/complex/... -v -run=ShortUser -bench=ShortUser -benchmem
 
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...

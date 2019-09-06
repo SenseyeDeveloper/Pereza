@@ -1,4 +1,6 @@
-package core
+package runnerstub
+
+import "github.com/gopereza/pereza/core/common"
 
 const (
 	runnerHeader = `// +build ignore
@@ -31,7 +33,7 @@ func RunnerStub(name, packagePath, packageName string, types []string) []byte {
 	content = append(content, runnerHeader...)
 	content = append(content, `	pkg "`...)
 	content = append(content, packagePath...)
-	content = append(content, '"', n, ')', n, n)
+	content = append(content, '"', '\n', ')', '\n', '\n')
 
 	content = append(content, "func main() {\n"...)
 	content = append(content, `	g := gen.NewGenerator("`...)
@@ -67,6 +69,6 @@ func getRunnerStubSize(name, packagePath, packageName string, types []string) in
 		len(name) +
 		len(packageName) +
 		typeWrapperSize*len(types) +
-		stringSliceSize(types) +
+		common.StringSliceSize(types) +
 		footerSize
 }

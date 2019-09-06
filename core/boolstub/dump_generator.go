@@ -1,4 +1,6 @@
-package core
+package boolstub
+
+import "github.com/gopereza/pereza/core/common"
 
 const (
 	multiBoolJSONResultHeader    = "return []byte(`{"
@@ -6,36 +8,28 @@ const (
 	multiBoolJSONResultFixedSize = len(multiBoolJSONResultHeader) + len(multiBoolJSONResultFooter)
 )
 
-type MultiBoolJSONResultGenerator struct {
-	jsonNames   []string
-	buffer      []byte
-	last        int
-	avgCapacity int
+type DumpGenerator struct {
+	jsonNames []string
+	buffer    []byte
+	last      int
 }
 
-func NewMultiBoolJSONResultGenerator(jsonNames []string) *MultiBoolJSONResultGenerator {
+func NewDumpGenerator(jsonNames []string) *DumpGenerator {
 	length := len(jsonNames)
 
-	const (
-		wrapTrue  = 7 // len(`"":true`)
-		wrapFalse = 8 // len(`"":true`)
-	)
-
 	commaCount := length - 1
-	jsonNameLength := stringSliceSize(jsonNames)
+	jsonNameLength := common.StringSliceSize(jsonNames)
 
-	minCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapTrue + commaCount
 	maxCapacity := multiBoolJSONResultFixedSize + jsonNameLength + length*wrapFalse + commaCount
 
-	return &MultiBoolJSONResultGenerator{
-		jsonNames:   jsonNames,
-		buffer:      make([]byte, 0, maxCapacity),
-		last:        commaCount,
-		avgCapacity: (minCapacity + maxCapacity + 1) / 2,
+	return &DumpGenerator{
+		jsonNames: jsonNames,
+		buffer:    make([]byte, 0, maxCapacity),
+		last:      len(jsonNames) - 1,
 	}
 }
 
-func (g *MultiBoolJSONResultGenerator) Generate(values []bool) []byte {
+func (g *DumpGenerator) Generate(values []bool) []byte {
 	result := g.buffer[:0]
 
 	result = append(result, multiBoolJSONResultHeader...)
@@ -51,10 +45,6 @@ func (g *MultiBoolJSONResultGenerator) Generate(values []bool) []byte {
 	result = append(result, multiBoolJSONResultFooter...)
 
 	return result
-}
-
-func (g *MultiBoolJSONResultGenerator) AvgCapacity() int {
-	return g.avgCapacity
 }
 
 func AppendBool(source []byte, jsonName string, value bool) []byte {

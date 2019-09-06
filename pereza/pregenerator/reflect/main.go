@@ -29,6 +29,12 @@ var reflectIntSize = map[reflect.Kind]IntSizeComment{
 func IntToStringMaxSize(t reflect.Kind) IntSizeComment {
 	return reflectIntSize[t]
 }
+
+func IntToStringMaxSizeOk(t reflect.Kind) (IntSizeComment, bool) {
+	result, ok := reflectIntSize[t]
+
+	return result, ok
+}
 `
 		pattern = "%s:{\nSize: %d,\nSizeAsString: %q,\nComment: %q,\nTypeCast: %t,\nSigned: %t,\n},"
 	)

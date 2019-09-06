@@ -1,4 +1,4 @@
-package core
+package common
 
 /**
 // MarshalJSON supports json.Marshaler interface
@@ -21,7 +21,7 @@ func EmptyResultStub(name string) []byte {
 	result = append(result, name...)
 	result = append(result, resultStubFuncSignatureEnd...)
 	result = append(result, emptyResultStubFuncBody...)
-	result = append(result, '}', n)
+	result = append(result, '}', '\n')
 
 	return result
 }

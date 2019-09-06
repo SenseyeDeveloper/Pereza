@@ -1,4 +1,4 @@
-package core
+package boolstub
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -12,7 +12,7 @@ func TestBoolResultStub(t *testing.T) {
 
 func BenchmarkBoolResultStub(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = BoolResultStub("PerezaBoolState", "State", "state")
+		_ = OneFieldStub("PerezaBoolState", "State", "state")
 	}
 }
 
@@ -20,5 +20,5 @@ func assertBoolResultStubOneAllocation(t *testing.T, typeName, fieldName, jsonNa
 	t.Helper()
 
 	expectSize := getBoolResultStubSize(typeName, fieldName, jsonName)
-	assert.Equal(t, expectSize, len(BoolResultStub(typeName, fieldName, jsonName)))
+	assert.Equal(t, expectSize, len(OneFieldStub(typeName, fieldName, jsonName)))
 }

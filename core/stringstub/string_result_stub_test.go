@@ -1,4 +1,4 @@
-package core
+package stringstub
 
 import (
 	"github.com/stretchr/testify/assert"

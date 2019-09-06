@@ -2,6 +2,11 @@ package gen
 
 import (
 	"github.com/gopereza/pereza/core"
+	"github.com/gopereza/pereza/core/boolstub"
+	"github.com/gopereza/pereza/core/common"
+	"github.com/gopereza/pereza/core/complexstub"
+	"github.com/gopereza/pereza/core/intstub"
+	"github.com/gopereza/pereza/core/stringstub"
 	"io"
 	"reflect"
 )
@@ -66,7 +71,7 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 	length := t.NumField()
 
 	if length == 0 {
-		return core.EmptyResultStub(t.Name())
+		return common.EmptyResultStub(t.Name())
 	}
 
 	switch length {
@@ -80,9 +85,9 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 
 			switch kind {
 			case reflect.Bool:
-				return core.BoolResultStub(t.Name(), field.Name, jsonName)
+				return boolstub.OneFieldStub(t.Name(), field.Name, jsonName)
 			case reflect.String:
-				return core.StringResultStub(t.Name(), field.Name, jsonName)
+				return stringstub.StringResultStub(t.Name(), field.Name, jsonName)
 			case reflect.Int,
 				reflect.Int8,
 				reflect.Int16,
@@ -94,16 +99,24 @@ func (g *Generator) genStructEncoder(t reflect.Type) []byte {
 				reflect.Uint32,
 				reflect.Uint64:
 
-				return core.IntResultStubByType(t.Name(), field.Name, jsonName, kind)
+				return intstub.IntResultStubByType(t.Name(), field.Name, jsonName, kind)
 			}
 		}
 	default:
 		fieldsNames, jsonNames, standard := core.MultiBoolStandardStructure(t)
 
 		if standard {
-			return core.MultiBoolResultStub(t.Name(), fieldsNames, jsonNames)
+			if core.MatchAllBooleanFields(t) {
+				if len(fieldsNames) > core.MultiBoolMaxProperties {
+					return boolstub.LargeFieldStub(t.Name(), fieldsNames, jsonNames)
+				}
+
+				return boolstub.CombinatorBoolResultStub(t.Name(), fieldsNames, jsonNames)
+			}
+
+			return complexstub.StandardStub(t, fieldsNames, jsonNames)
 		}
 	}
 
-	return core.EmptyResultStub(t.Name())
+	return common.EmptyResultStub(t.Name())
 }

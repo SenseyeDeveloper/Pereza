@@ -2,7 +2,7 @@ package bootstrap
 
 import (
 	"errors"
-	"github.com/gopereza/pereza/core"
+	"github.com/gopereza/pereza/core/runnerstub"
 	"github.com/gopereza/pereza/parser"
 	"io/ioutil"
 	"os"
@@ -64,7 +64,7 @@ func (g *Generator) generate(filename string) error {
 	//	"parser result %+v\n"+
 	//	"output filename %s\n", filename, result, outName)
 
-	err = ioutil.WriteFile(outName, core.Stub(result.PackageName, result.StructNames), 0666)
+	err = ioutil.WriteFile(outName, runnerstub.Stub(result.PackageName, result.StructNames), 0666)
 	if err != nil {
 		return err
 	}
@@ -91,7 +91,7 @@ func (g *Generator) writeMain(outName, packagePath, packageName string, types []
 		strings.TrimSuffix(base, suffix)+"-easyjson-bootstrap.go",
 	)
 
-	content := core.RunnerStub(base, packagePath, packageName, types)
+	content := runnerstub.RunnerStub(base, packagePath, packageName, types)
 
 	return bootstrapFilename, ioutil.WriteFile(bootstrapFilename, content, 0644)
 }
