@@ -4,38 +4,40 @@ package boolean
 
 // MarshalBSON supports bson.Marshaler interface
 func (v PerezaAlphabetBoolState) MarshalBSON() ([]byte, error) {
-	result := make([]byte, 0, 109)
+	return []byte{
+		109, 0, 0, 0, // size by int32
 
-	result = append(result, 109, 0, 0, 0)
+		// data
+		0x08, 'a', 0x00, bool2byte(v.A),
+		0x08, 'b', 0x00, bool2byte(v.B),
+		0x08, 'c', 0x00, bool2byte(v.C),
+		0x08, 'd', 0x00, bool2byte(v.D),
+		0x08, 'e', 0x00, bool2byte(v.E),
+		0x08, 'f', 0x00, bool2byte(v.F),
+		0x08, 'g', 0x00, bool2byte(v.G),
+		0x08, 'h', 0x00, bool2byte(v.H),
+		0x08, 'i', 0x00, bool2byte(v.I),
+		0x08, 'j', 0x00, bool2byte(v.J),
+		0x08, 'k', 0x00, bool2byte(v.K),
+		0x08, 'l', 0x00, bool2byte(v.L),
+		0x08, 'm', 0x00, bool2byte(v.M),
+		0x08, 'n', 0x00, bool2byte(v.N),
+		0x08, 'o', 0x00, bool2byte(v.O),
+		0x08, 'p', 0x00, bool2byte(v.P),
+		0x08, 'q', 0x00, bool2byte(v.Q),
+		0x08, 'r', 0x00, bool2byte(v.R),
+		0x08, 's', 0x00, bool2byte(v.S),
+		0x08, 't', 0x00, bool2byte(v.T),
+		0x08, 'u', 0x00, bool2byte(v.U),
+		0x08, 'v', 0x00, bool2byte(v.V),
+		0x08, 'w', 0x00, bool2byte(v.W),
+		0x08, 'x', 0x00, bool2byte(v.X),
+		0x08, 'y', 0x00, bool2byte(v.Y),
+		0x08, 'z', 0x00, bool2byte(v.Z),
 
-	result = append(result, 0x08, 'a', 0x00, bool2byte(v.A))
-	result = append(result, 0x08, 'b', 0x00, bool2byte(v.B))
-	result = append(result, 0x08, 'c', 0x00, bool2byte(v.C))
-	result = append(result, 0x08, 'd', 0x00, bool2byte(v.D))
-	result = append(result, 0x08, 'e', 0x00, bool2byte(v.E))
-	result = append(result, 0x08, 'f', 0x00, bool2byte(v.F))
-	result = append(result, 0x08, 'g', 0x00, bool2byte(v.G))
-	result = append(result, 0x08, 'h', 0x00, bool2byte(v.H))
-	result = append(result, 0x08, 'i', 0x00, bool2byte(v.I))
-	result = append(result, 0x08, 'j', 0x00, bool2byte(v.J))
-	result = append(result, 0x08, 'k', 0x00, bool2byte(v.K))
-	result = append(result, 0x08, 'l', 0x00, bool2byte(v.L))
-	result = append(result, 0x08, 'm', 0x00, bool2byte(v.M))
-	result = append(result, 0x08, 'n', 0x00, bool2byte(v.N))
-	result = append(result, 0x08, 'o', 0x00, bool2byte(v.O))
-	result = append(result, 0x08, 'p', 0x00, bool2byte(v.P))
-	result = append(result, 0x08, 'q', 0x00, bool2byte(v.Q))
-	result = append(result, 0x08, 'r', 0x00, bool2byte(v.R))
-	result = append(result, 0x08, 's', 0x00, bool2byte(v.S))
-	result = append(result, 0x08, 't', 0x00, bool2byte(v.T))
-	result = append(result, 0x08, 'u', 0x00, bool2byte(v.U))
-	result = append(result, 0x08, 'v', 0x00, bool2byte(v.V))
-	result = append(result, 0x08, 'w', 0x00, bool2byte(v.W))
-	result = append(result, 0x08, 'x', 0x00, bool2byte(v.X))
-	result = append(result, 0x08, 'y', 0x00, bool2byte(v.Y))
-	result = append(result, 0x08, 'z', 0x00, bool2byte(v.Z), 0x00)
-
-	return result, nil
+		// zero end
+		0x00,
+	}, nil
 }
 
 func bool2byte(b bool) byte {
