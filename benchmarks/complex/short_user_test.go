@@ -60,7 +60,7 @@ func TestShortUserPereza(t *testing.T) {
 }
 
 func BenchmarkShortUserEncodingJSON(b *testing.B) {
-	source := complex.EasyShortUser{}
+	source := complex.ShortUser{}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = json.Marshal(source)

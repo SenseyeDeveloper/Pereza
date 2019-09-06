@@ -82,7 +82,7 @@ struct {
 ```
 
 ```text
-BenchmarkShortUserEncodingJSON   	 1000000	      1584 ns/op	     600 B/op	       6 allocs/op
-BenchmarkShortUserEasyJSON       	 5000000	       261 ns/op	     128 B/op	       1 allocs/op
-BenchmarkShortUserPerezaJSON     	20000000	       104 ns/op	     128 B/op	       1 allocs/op
+BenchmarkShortUserEncodingJSON   	 1000000	      1053 ns/op	     400 B/op	       3 allocs/op
+BenchmarkShortUserEasyJSON       	 5000000	       258 ns/op	     128 B/op	       1 allocs/op
+BenchmarkShortUserPerezaJSON     	20000000	       107 ns/op	     128 B/op	       1 allocs/op
 ```
