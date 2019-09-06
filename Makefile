@@ -47,16 +47,7 @@ perezajson: build
         ./fixtures/boolean/hexa_bool_state.go \
         ./fixtures/boolean/alphabet_bool_state.go \
         ./fixtures/string_state.go \
-        ./fixtures/json/pregen/int_state.go \
-        ./fixtures/json/pregen/int8_state.go \
-        ./fixtures/json/pregen/int16_state.go \
-        ./fixtures/json/pregen/int32_state.go \
-        ./fixtures/json/pregen/int64_state.go \
-        ./fixtures/json/pregen/uint_state.go \
-        ./fixtures/json/pregen/uint8_state.go \
-        ./fixtures/json/pregen/uint16_state.go \
-        ./fixtures/json/pregen/uint32_state.go \
-        ./fixtures/json/pregen/uint64_state.go \
+        ./fixtures/json/pregen \
         ./fixtures/complex/short_user.go
 
 easyjson:
