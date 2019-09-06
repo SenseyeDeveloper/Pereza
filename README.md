@@ -114,3 +114,40 @@ struct {
 BenchmarkBoolStateMongoMarshalBSON    	 3000000	       586 ns/op	     289 B/op	       3 allocs/op
 BenchmarkBoolStatePerezaMarshalBSON   	200000000	         6.46 ns/op	       0 B/op	       0 allocs/op
 ```
+
+##### Bool structure with 26 properties
+```golang
+struct {
+	A bool `bson:"a"`
+	B bool `bson:"b"`
+	C bool `bson:"c"`
+	D bool `bson:"d"`
+	E bool `bson:"e"`
+	F bool `bson:"f"`
+	G bool `bson:"g"`
+	H bool `bson:"h"`
+	I bool `bson:"i"`
+	J bool `bson:"j"`
+	K bool `bson:"k"`
+	L bool `bson:"l"`
+	M bool `bson:"m"`
+	N bool `bson:"n"`
+	O bool `bson:"o"`
+	P bool `bson:"p"`
+	Q bool `bson:"q"`
+	R bool `bson:"r"`
+	S bool `bson:"s"`
+	T bool `bson:"t"`
+	U bool `bson:"u"`
+	V bool `bson:"v"`
+	W bool `bson:"w"`
+	X bool `bson:"x"`
+	Y bool `bson:"y"`
+	Z bool `bson:"z"`
+}
+```
+
+```text
+BenchmarkAlphabetMongoMarshalBSON    	 1000000	      2127 ns/op	     320 B/op	       3 allocs/op
+BenchmarkAlphabetPerezaMarshalBSON   	20000000	        74.9 ns/op	     112 B/op	       1 allocs/op
+```
