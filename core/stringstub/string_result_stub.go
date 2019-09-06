@@ -21,7 +21,7 @@ func (v *PerezaStringState) PerezaMarshalJSON() []byte {
 }
 */
 
-// Static allocate
+// Dynamic allocate
 func StringResultStub(typeName, fieldName, jsonName string) []byte {
 	result := make([]byte, 0, getStringResultStubSize(typeName, fieldName, jsonName))
 
@@ -40,15 +40,8 @@ func StringResultStub(typeName, fieldName, jsonName string) []byte {
 	result = append(result, `)+end)`...)
 	result = append(result, '\n')
 
-	result = append(result, `	result = append(result, '{', '"'`...)
-	result = common.AppendJSONFieldNameAsBytes(result, jsonName)
-	result = append(result, `, '"', ':', '"')`...)
-	result = append(result, '\n')
-	result = append(result, `	result = append(result, v.`...)
-	result = append(result, fieldName...)
-	result = append(result, `...)`...)
-	result = append(result, '\n')
-	result = append(result, `	result = append(result, '"', '}')`...)
+	result = AppendFirstField(result, fieldName, jsonName)
+	result = append(result, `	result = append(result, '}')`...)
 	result = append(result, '\n', '\n')
 
 	result = append(result, `	return result, nil`...)
@@ -70,6 +63,36 @@ func getStringResultStubSize(typeName, fieldName, jsonName string) int {
 		6*len(jsonName)
 }
 
-func AppendFirstField(dst []byte)  {
+func AppendFirstField(result []byte, fieldName, jsonName string) []byte {
+	result = append(result, "\tresult = append(result, `{"...)
+	result = append(result, `"`...)
+	result = append(result, jsonName...)
+	result = append(result, `":"`...)
+	result = append(result, "`...)"...)
+	result = append(result, '\n')
+	result = append(result, `	result = append(result, v.`...)
+	result = append(result, fieldName...)
+	result = append(result, `...)`...)
+	result = append(result, '\n')
+	result = append(result, `	result = append(result, '"')`...)
+	result = append(result, '\n')
 
+	return result
+}
+
+func AppendField(result []byte, fieldName, jsonName string) []byte {
+	result = append(result, "\tresult = append(result, `,"...)
+	result = append(result, `"`...)
+	result = append(result, jsonName...)
+	result = append(result, `":"`...)
+	result = append(result, "`...)"...)
+	result = append(result, '\n')
+	result = append(result, `	result = append(result, v.`...)
+	result = append(result, fieldName...)
+	result = append(result, `...)`...)
+	result = append(result, '\n')
+	result = append(result, `	result = append(result, '"')`...)
+	result = append(result, '\n')
+
+	return result
 }

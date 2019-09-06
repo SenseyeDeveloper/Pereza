@@ -13,8 +13,25 @@ const (
 		2 // '\n', '}'
 )
 
-func AppendHeader(source []byte, typeName string) []byte {
-	result := append(source, resultStubHeader...)
+func AppendImports(result []byte, imports []string) []byte {
+	unique := make(map[string]bool)
+
+	for _, importString := range imports {
+		if unique[importString] {
+			continue
+		}
+
+		unique[importString] = true
+
+		result = append(result, importString...)
+		result = append(result, '\n')
+	}
+
+	return result
+}
+
+func AppendHeader(result []byte, typeName string) []byte {
+	result = append(result, resultStubHeader...)
 	result = append(result, resultStubFuncSignatureStart...)
 	result = append(result, typeName...)
 	result = append(result, resultStubFuncSignatureEnd...)

@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	expect = `{"id":1,"first_name":"Senseye","last_name":"Developer","country":"UA","created_at":1567695264,"updated_at":1567695265}`
+	expect = `{"id":1,"first_name":"Senseye","last_name":"Developer","country":"UA","created_at":1567695264,"updated_at":1567695265,"enabled":true}`
 )
 
 func TestShortUserEncodingJSON(t *testing.T) {
@@ -19,6 +19,7 @@ func TestShortUserEncodingJSON(t *testing.T) {
 		Country:   "UA",
 		CreatedAt: 1567695264,
 		UpdatedAt: 1567695265,
+		Enabled:   true,
 	}
 
 	actual, err := json.Marshal(source)
@@ -34,6 +35,7 @@ func TestShortUserEasyJSON(t *testing.T) {
 		Country:   "UA",
 		CreatedAt: 1567695264,
 		UpdatedAt: 1567695265,
+		Enabled:   true,
 	}
 
 	actual, err := source.MarshalJSON()
@@ -42,7 +44,15 @@ func TestShortUserEasyJSON(t *testing.T) {
 }
 
 func TestShortUserPereza(t *testing.T) {
-	source := complex.PerezaShortUser{}
+	source := complex.PerezaShortUser{
+		ID:        1,
+		FirstName: "Senseye",
+		LastName:  "Developer",
+		Country:   "UA",
+		CreatedAt: 1567695264,
+		UpdatedAt: 1567695265,
+		Enabled:   true,
+	}
 
 	actual, err := source.MarshalJSON()
 	assert.NoError(t, err)

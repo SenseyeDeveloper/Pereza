@@ -8,7 +8,8 @@ const (
 )
 
 const (
-	MaxBoolSize = 5
+	MaxBoolSize         = 5
+	MaxBoolSizeAsString = "5"
 )
 
 func MultiSize(jsonNames []string) int {

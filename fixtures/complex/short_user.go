@@ -7,6 +7,7 @@ type ShortUser struct {
 	Country   string `json:"country"`
 	CreatedAt uint32 `json:"created_at"`
 	UpdatedAt uint32 `json:"updated_at"`
+	Enabled   bool   `json:"enabled"`
 }
 
 // easyjson:json
@@ -17,6 +18,7 @@ type EasyShortUser struct {
 	Country   string `json:"country"`
 	CreatedAt uint32 `json:"created_at"`
 	UpdatedAt uint32 `json:"updated_at"`
+	Enabled   bool   `json:"enabled"`
 }
 
 // pereza:json
@@ -27,4 +29,5 @@ type PerezaShortUser struct {
 	Country   string `json:"country"`
 	CreatedAt uint32 `json:"created_at"`
 	UpdatedAt uint32 `json:"updated_at"`
+	Enabled   bool   `json:"enabled"`
 }

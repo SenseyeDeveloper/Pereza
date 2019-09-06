@@ -8,9 +8,7 @@ import (
 )
 
 const (
-	intImport = `import "strconv"
-
-`
+	IntImport = `import "strconv"`
 )
 
 var signedTypeCastSize = map[bool]map[bool]int{
@@ -41,15 +39,16 @@ func (v *PerezaIntState) PerezaMarshalJSON() []byte {
 }
 */
 
-// Static allocate
+// Dynamic allocate
 func IntResultStubByType(typeName, fieldName, jsonName string, t reflect.Kind) []byte {
 	return IntResultStubBySettings(typeName, fieldName, jsonName, pregen.IntToStringMaxSize(t))
 }
 
 func IntResultStubBySettings(typeName, fieldName, jsonName string, comment pregen.IntSizeComment) []byte {
-	result := make([]byte, 0, getIntResultStubSizeBySettings(typeName, fieldName, jsonName, comment))
+	result := make([]byte, 0)
 
-	result = append(result, intImport...)
+	result = append(result, IntImport...)
+	result = append(result, '\n', '\n')
 
 	result = common.AppendHeader(result, typeName)
 
@@ -65,13 +64,51 @@ func IntResultStubBySettings(typeName, fieldName, jsonName string, comment prege
 	result = append(result, "`)\n"...)
 	result = append(result, "	const end = 1    // len([]byte{'}'})\n\n"...)
 
-	result = append(result, "	result := make([]byte, 0, start+value+end)\n"...)
+	result = append(result, "	result := make([]byte, 0, start+value+end)"...)
 
-	result = append(result, `	result = append(result, '{', '"'`...)
-	result = common.AppendJSONFieldNameAsBytes(result, jsonName)
-	result = append(result, `, '"', ':')`...)
+	result = AppendFirstField(result, fieldName, jsonName, comment)
+
+	result = append(result, '\n')
+	result = append(result, `	result = append(result, '}')`...)
+	result = append(result, '\n', '\n')
+
+	result = append(result, `	return result, nil`...)
+	result = append(result, '\n', '}', '\n')
+
+	return result
+}
+
+func AppendFirstField(result []byte, fieldName, jsonName string, comment pregen.IntSizeComment) []byte {
+	result = append(result, '\n')
+	result = append(result, "\tresult = append(result, `{"...)
+	result = append(result, `"`...)
+	result = append(result, jsonName...)
+	result = append(result, `":`...)
+	result = append(result, "`...)"...)
+
+	result = append(result, '\n')
+	result = appendInt(result, fieldName, comment)
 	result = append(result, '\n')
 
+	return result
+}
+
+func AppendField(result []byte, fieldName, jsonName string, comment pregen.IntSizeComment) []byte {
+	result = append(result, '\n')
+	result = append(result, "\tresult = append(result, `,"...)
+	result = append(result, `"`...)
+	result = append(result, jsonName...)
+	result = append(result, `":`...)
+	result = append(result, "`...)"...)
+
+	result = append(result, '\n')
+	result = appendInt(result, fieldName, comment)
+	result = append(result, '\n')
+
+	return result
+}
+
+func appendInt(result []byte, fieldName string, comment pregen.IntSizeComment) []byte {
 	if comment.Signed {
 		if comment.TypeCast {
 			result = append(result, `	result = strconv.AppendInt(result, int64(v.`...)
@@ -94,33 +131,5 @@ func IntResultStubBySettings(typeName, fieldName, jsonName string, comment prege
 		}
 	}
 
-	result = append(result, '\n')
-	result = append(result, `	result = append(result, '}')`...)
-	result = append(result, '\n', '\n')
-
-	result = append(result, `	return result, nil`...)
-	result = append(result, '\n', '}', '\n')
-
 	return result
-}
-
-func getIntResultStubSizeByType(typeName, fieldName, jsonName string, t reflect.Kind) int {
-	return getIntResultStubSizeBySettings(typeName, fieldName, jsonName, pregen.IntToStringMaxSize(t))
-}
-
-func getIntResultStubSizeBySettings(typeName, fieldName, jsonName string, comment pregen.IntSizeComment) int {
-	const (
-		fixedSize = len(intImport) +
-			common.WrapSignatureSize +
-			289 // func other
-	)
-
-	return fixedSize +
-		common.DigitsSize(common.StringStartConst(jsonName)) +
-		len(typeName) +
-		len(fieldName) +
-		6*len(jsonName) +
-		len(comment.Comment) +
-		len(comment.SizeAsString) +
-		signedTypeCastSize[comment.Signed][comment.TypeCast]
 }

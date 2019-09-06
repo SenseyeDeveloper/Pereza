@@ -77,6 +77,10 @@ dev-alphabet:
 	.root/bin/pereza ./fixtures/boolean/alphabet_bool_state.go
 	go test ./benchmarks/boolean/... -v -run=AlphabetBool -bench=AlphabetBool -benchmem
 
+dev-user:
+	.root/bin/pereza ./fixtures/complex/short_user.go
+	go test ./benchmarks/complex/... -v -run=ShortUser -bench=ShortUser -benchmem
+
 fmt:
 	go fmt ./pregen/... ./benchmarks/... ./fixtures/... ./bootstrap/... ./pereza/... ./core/... ./gen/...
 

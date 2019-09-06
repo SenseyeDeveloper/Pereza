@@ -17,14 +17,15 @@ func LargeFieldStub(typeName string, fieldNames, jsonNames []string) []byte {
 
 	stub = AppendFirstField(stub, fastConditionMap[fieldNames[0]], jsonNames[0])
 
-	last := len(fieldNames) - 1
-	for i := 1; i < last; i++ {
+	length := len(fieldNames)
+	for i := 1; i < length; i++ {
 		stub = AppendField(stub, fastConditionMap[fieldNames[i]], jsonNames[i])
 	}
 
-	stub = AppendLastField(stub, fastConditionMap[fieldNames[last]], jsonNames[last])
+	stub = append(stub, '\t')
+	stub = append(stub, "result = append(result, '}')"...)
 
-	stub = append(stub, '\n')
+	stub = append(stub, '\n', '\n', '\t')
 	stub = append(stub, "return result, nil"...)
 	stub = append(stub, '\n')
 
@@ -52,18 +53,6 @@ func AppendField(result []byte, condition []byte, jsonName string) []byte {
 	result = append(result, "} else {\n"...)
 	result = append(result, '\t')
 	result = append(result, "result = append(result, `,\""+jsonName+"\":false`...)\n"...)
-	result = append(result, "}\n"...)
-
-	return result
-}
-
-func AppendLastField(result []byte, condition []byte, jsonName string) []byte {
-	result = append(result, condition...)
-	result = append(result, '\t')
-	result = append(result, "result = append(result, `,\""+jsonName+"\":true}`...)\n"...)
-	result = append(result, "} else {\n"...)
-	result = append(result, '\t')
-	result = append(result, "result = append(result, `,\""+jsonName+"\":false}`...)\n"...)
 	result = append(result, "}\n"...)
 
 	return result
